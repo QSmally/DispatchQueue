@@ -1,0 +1,10 @@
+
+# Dependencies
+node_modules/
+
+# Builds
+Build/
+
+# Miscellaneous
+.DS_Store
+*.zip
