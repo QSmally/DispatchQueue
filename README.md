@@ -43,7 +43,7 @@ DQ.scaleTo(3);
 
 // Scales up or down by a given amount of threads.
 // In this case, with the action above, it will be 4.
-QD.scale(1);
+DQ.scale(1);
 ```
 
 ## Group management
