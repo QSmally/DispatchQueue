@@ -12,28 +12,30 @@
 ## Installation
 `npm install QSmally/DispatchQueue`
 ```js
-const DispatchGroup = require("dispatchqueue");
+const DispatchQueue = require("dispatchqueue");
 // ...
 ```
 
 
 # Usage
 ```js
-// Group creation
 const path = "path/to/worker.js";
 const threadAmount = 5;
-const DQ = new DispatchGroup(path, threadAmount);
+const DQ = new DispatchQueue(path, threadAmount);
+```
 
-// Task insertion
-DQ.task({ /* data */ })
-    .then(result => {
-        // result completion
-    })
-    .catch(error => {
-        // result issue
-    });
+## Task creation
+```js
+// Schedules a task and finds the ideal thread to
+// perform it on.
+DQ
+    .task({ /* data */ })
+    .then(result => { /* result competion */ })
+    .catch(error => { /* result issue */ });
+```
 
-// Scaling
+## Scaling
+```js
 // Adds or removes the delta of threads.
 // In this case, it will be 2.
 DQ.scaleTo(3);
@@ -41,6 +43,22 @@ DQ.scaleTo(3);
 // Scales up or down by a given amount of threads.
 // In this case, with the action above, it will be 4.
 QD.scale(1);
+```
+
+## Group management
+```js
+// A group of dispatch queues can be created, and they
+// are accessed using `.global()`.
+const services = new DispatchQueue.Group({
+    "service_1": { path: "path/to/service_1/worker.js", threadAmount: 3 },
+    "service_2": { path: "path/to/service_2/worker.js", threadAmount: 5 },
+    "service_3": { path: "path/to/service_3/worker.js", threadAmount: 4 }
+});
+
+services
+    .global("service_3")
+    .task({ /* data */ });
+    // ...
 ```
 
 
