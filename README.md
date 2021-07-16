@@ -37,7 +37,8 @@ DQ
 ## Scaling
 ```js
 // Adds or removes the delta of threads.
-// In this case, it will be 2.
+// In this case, it will be -2, with a total amount
+// of threads being 3.
 DQ.scaleTo(3);
 
 // Scales up or down by a given amount of threads.
