@@ -9,13 +9,17 @@ class ThreadController {
      * A class which interfaces a thread queue.
      * @param {Pathlike} path A path to the thread implementation.
      * @param {Number} threadAmount Initial amount of threads.
+     * @param {Boolean} deferThreadInit Whether or not to wait with spawning
+     * threads until the first incoming task is registered.
      */
-    constructor(path, threadAmount) {
+    constructor(path, threadAmount, deferThreadInit) {
         for (let i = 0; i < threadAmount; i++) {
             this.workers.push(new ThreadInstance(path));
         }
 
-        this.instantiate();
+        if (!deferThreadInit) {
+            this.instantiate();
+        }
     }
 
     /**
@@ -35,6 +39,15 @@ class ThreadController {
     isInitialising = true;
 
     /**
+     * Whether this ThreadController has performed its
+     * initialisation step to spawn all the thread instances.
+     * @name ThreadController#threadsSpawned
+     * @type {Boolean}
+     * @private
+     */
+    threadsSpawned = false;
+
+    /**
      * Initialises all threads in this pool.
      * @private
      * @async
@@ -44,6 +57,7 @@ class ThreadController {
             .filter(W => !W.isActive)
             .map(W => once(W.spawn(), "online"));
 
+        this.threadsSpawned = true;
         await Promise.all(spawningThreads);
         this.isInitialising = false;
     }
@@ -55,6 +69,7 @@ class ThreadController {
      * @async
      */
     async dataTask(payload) {
+        if (!this.threadsSpawned) await this.instantiate();
         const executionThread = this.idealWorker();
         return executionThread.dataTask(payload);
     }

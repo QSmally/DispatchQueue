@@ -10,8 +10,10 @@ class DispatchQueue {
      * @param {Pathlike} path A path to the thread implementation.
      * @param {Number} [threadAmount] Initial amount of threads this queue
      * should spawn. It defaults to the value returned by `os.cpus().length`.
+     * @param {Boolean} [deferThreadInit] Whether or not to wait with
+     * spawning threads until the first incoming task is registered.
      */
-    constructor(path, threadAmount = cpus().length) {
+    constructor(path, threadAmount = cpus().length, deferThreadInit = false) {
         /**
          * A path to the thread implementation.
          * @name DispatchQueue#path
@@ -41,7 +43,7 @@ class DispatchQueue {
         Object.defineProperty(this, "threadController", {
             enumerable: false,
             writable: false,
-            value: new ThreadController(path, threadAmount)
+            value: new ThreadController(path, threadAmount, deferThreadInit)
         });
     }
 
