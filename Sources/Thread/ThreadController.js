@@ -56,7 +56,6 @@ class ThreadController {
      */
     async dataTask(payload) {
         const executionThread = this.idealWorker();
-        console.log(`[main] scheduling for thread ${executionThread.threadId}, queue size: ${executionThread.tasks.remaining}`);
         return executionThread.dataTask(payload);
     }
 

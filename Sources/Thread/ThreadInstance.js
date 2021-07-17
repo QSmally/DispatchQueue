@@ -69,10 +69,7 @@ class ThreadInstance {
      */
     spawn() {
         this.worker = new Worker(this.path)
-            .once("online", () => {
-                this.isActive = true;
-                console.log(`--------------- thread ${this.threadId} marked active`);
-            })
+            .once("online", () => { this.isActive = true; })
             .once("exit", code => this.restart(code))
             .on("message", payload => this.onPayload(payload))
             .on("error", error => this.onErrorPayload(error));
@@ -118,7 +115,6 @@ class ThreadInstance {
      */
     async dataTask(payload) {
         await this.tasks.wait();
-        console.log(`[main] actually sending payload to thread ${this.threadId}, queue size: ${this.tasks.remaining}`);
         this.worker.postMessage(payload);
         this.currentTask = ThreadQueue.createAsyncPromise();
         return await this.currentTask.promise;
