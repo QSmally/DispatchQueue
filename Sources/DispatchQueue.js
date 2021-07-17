@@ -29,7 +29,7 @@ class DispatchQueue {
         }
 
         if (threadAmount <= 0) {
-            throw new TypeError("Amount of threads being spawned cannot be negative.");
+            throw new TypeError("Amount of threads being spawned cannot be zero or negative.");
         }
 
         /**
@@ -45,15 +45,34 @@ class DispatchQueue {
         });
     }
 
+    /**
+     * Returns the amount of threads currently inside of this pool.
+     * @name DispatchQueue#threadAmount
+     * @type {Number}
+     */
     get threadAmount() {
+        return this.threadController.workers.length;
+    }
+
+    /**
+     * Returns the amount of all initialised and active threads of this pool.
+     * @name DispatchQueue#activeThreadAmount
+     * @type {Number}
+     */
+    get activeThreadAmount() {
         return this.threadController.workers
             .filter(W => W.isActive)
             .length;
     }
 
-    // TODO:
-    // Initiate data tasks.
-    task(data) {}
+    /**
+     * Creates a data task.
+     * @param {Object} payload Anything required by the thread implementation.
+     * @returns {Promise} Promise controller wrapping the result of the task.
+     */
+    task(payload) {
+        return this.threadController.dataTask(payload);
+    }
 }
 
 module.exports = DispatchQueue;
