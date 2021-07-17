@@ -10,6 +10,11 @@
     "concurrency",
     "thread"
   ],
+  "homepage": "https://github.com/QSmally/DispatchQueue#readme",
+  "repository": "github:QSmally/DispatchQueue",
   "author": "QSmally",
-  "license": "Apache 2.0"
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/QSmally/DispatchQueue/issues"
+  }
 }
