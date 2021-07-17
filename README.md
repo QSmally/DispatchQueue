@@ -10,7 +10,7 @@
 * Ensuring the best processing performance.
 
 ## Installation
-`npm install QSmally/DispatchQueue`
+`npm install dispatchqueue`
 ```js
 const DispatchQueue = require("dispatchqueue");
 // ...
@@ -19,7 +19,7 @@ const DispatchQueue = require("dispatchqueue");
 
 # Usage
 ```js
-const path = "path/to/worker.js";
+const path = "./path/to/worker.js";
 const threadAmount = 5;
 const DQ = new DispatchQueue(path, threadAmount);
 ```
@@ -30,11 +30,11 @@ const DQ = new DispatchQueue(path, threadAmount);
 // perform it on.
 DQ
     .task({ /* data */ })
-    .then(result => { /* result competion */ })
+    .then(result => { /* result completion */ })
     .catch(error => { /* result issue */ });
 ```
 
-## Scaling
+## Scaling (planned feature)
 ```js
 // Adds or removes the delta of threads.
 // In this case, it will be -2, with a total amount
@@ -46,20 +46,37 @@ DQ.scaleTo(3);
 DQ.scale(1);
 ```
 
-## Group management
+## Group management (planned feature)
 ```js
 // A group of dispatch queues can be created, and they
 // are accessed using `.global()`.
 const services = new DispatchQueue.Group({
-    "service_1": { path: "path/to/service_1/worker.js", threadAmount: 3 },
-    "service_2": { path: "path/to/service_2/worker.js", threadAmount: 5 },
-    "service_3": { path: "path/to/service_3/worker.js", threadAmount: 4 }
+    "service_1": { path: "./path/to/service_1/worker.js", threadAmount: 3 },
+    "service_2": { path: "./path/to/service_2/worker.js", threadAmount: 5 },
+    "service_3": { path: "./path/to/service_3/worker.js", threadAmount: 4 }
 });
 
 services
     .global("service_3")
     .task({ /* data */ });
     // ...
+```
+
+## Thread implementation (planned feature)
+```js
+// A file at the given thread path can use the native
+// worker API Node gives, or the implementation of a
+// class-based wrapper.
+// DispatchThread handles cases such as pings automatically.
+class Thread extends DispatchQueue.Thread {
+    onPayload(data) {
+        // ...
+        this.resolve(result); // or
+        throw new Error("Execution failed");
+    }
+}
+
+new Thread();
 ```
 
 
