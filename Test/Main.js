@@ -24,7 +24,7 @@ const interval = setInterval(() => {
         .then(result => {
             console.log(result);
             if (result.iteration === 100) {
-                console.log("threads done with 100 tasks");
+                console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
             }
         })
         .catch(console.error);

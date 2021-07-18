@@ -89,8 +89,13 @@ class ThreadInstance {
 
         await this.terminate();
 
+        // TODO:
+        // handle thread exit with code 0 when
+        // there are queued tasks left.
+
         if (code !== 0) {
             this.spawn();
+            this.tasks.nextTask();
         }
     }
 
@@ -142,7 +147,6 @@ class ThreadInstance {
     onErrorPayload(error) {
         this.currentTask?.reject(error);
         this.currentTask = null;
-        this.tasks.nextTask();
     }
 }
 
