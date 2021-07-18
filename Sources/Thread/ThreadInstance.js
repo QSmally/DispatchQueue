@@ -83,8 +83,9 @@ class ThreadInstance {
      */
     async restart(code) {
         if (code !== 0 && process.env.THREAD_DEBUG === true) {
-            const groupIdentifier = this.groupIdentifier ? ` of group '${this.groupIdentifier}'` : "";
-            console.debug(`Thread ${this.threadId}${groupIdentifier} quit with a non-zero exit code: ${code}`);
+            // TODO:
+            // fix `threadId` being -1 because the thread already exited.
+            console.debug(`Thread ${this.threadId} quit with a non-zero exit code: ${code}`);
         }
 
         await this.terminate();
