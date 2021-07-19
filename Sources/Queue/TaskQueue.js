@@ -1,8 +1,8 @@
 
-class ThreadQueue {
+class TaskQueue {
     /**
      * The property that holds all queued items.
-     * @name ThreadQueue#queue
+     * @name TaskQueue#queue
      * @type {Array<Object>}
      * @readonly
      */
@@ -10,7 +10,7 @@ class ThreadQueue {
 
     /**
      * Returns the amount of items remaining in the queue.
-     * @name ThreadQueue#remaining
+     * @name TaskQueue#remaining
      * @type {Number}
      */
     get remaining() {
@@ -27,7 +27,7 @@ class ThreadQueue {
             this.queue[this.queue.length - 1].promise :
             Promise.resolve();
 
-        const promise = ThreadQueue.createAsyncPromise();
+        const promise = TaskQueue.createAsyncPromise();
         this.queue.push(promise);
 
         return nextQueuedItem;
@@ -65,4 +65,4 @@ class ThreadQueue {
     }
 }
 
-module.exports = ThreadQueue;
+module.exports = TaskQueue;

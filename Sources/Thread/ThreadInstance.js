@@ -1,6 +1,6 @@
 
-const { Worker }  = require("worker_threads");
-const ThreadQueue = require("../Queue/ThreadQueue");
+const { Worker } = require("worker_threads");
+const TaskQueue  = require("../Queue/TaskQueue");
 
 class ThreadInstance {
 
@@ -49,10 +49,10 @@ class ThreadInstance {
     /**
      * Queued data tasks.
      * @name ThreadInstance#tasks
-     * @type {ThreadQueue}
+     * @type {TaskQueue}
      * @readonly
      */
-    tasks = new ThreadQueue();
+    tasks = new TaskQueue();
 
     /**
      * The currently executing data task.
@@ -122,7 +122,7 @@ class ThreadInstance {
     async dataTask(payload) {
         await this.tasks.wait();
         this.worker.postMessage(payload);
-        this.currentTask = ThreadQueue.createAsyncPromise();
+        this.currentTask = TaskQueue.createAsyncPromise();
         return await this.currentTask.promise;
     }
 
