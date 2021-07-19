@@ -41,11 +41,10 @@ class ThreadInstance {
     /**
      * Thread identifier when spawned.
      * @name ThreadInstance#threadId
-     * @type {Number}
+     * @type {Number?}
+     * @readonly
      */
-    get threadId() {
-        return this.worker?.threadId;
-    }
+    threadId = null;
 
     /**
      * Queued data tasks.
@@ -73,6 +72,8 @@ class ThreadInstance {
             .once("exit", code => this.restart(code))
             .on("message", payload => this.onPayload(payload))
             .on("error", error => this.onErrorPayload(error));
+
+        this.threadId = this.worker.threadId;
         return this.worker;
     }
 
@@ -83,8 +84,6 @@ class ThreadInstance {
      */
     async restart(code) {
         if (code !== 0 && process.env.THREAD_DEBUG === true) {
-            // TODO:
-            // fix `threadId` being -1 because the thread already exited.
             console.debug(`Thread ${this.threadId} quit with a non-zero exit code: ${code}`);
         }
 
@@ -111,6 +110,7 @@ class ThreadInstance {
         await this.worker?.terminate();
 
         this.worker = null;
+        this.threadId = null;
     }
 
     /**
@@ -129,7 +129,8 @@ class ThreadInstance {
     /**
      * An event which is performed whenever a response
      * from the thread is received.
-     * @param {Object} [payload] 
+     * @param {Object} [payload]
+     * @returns {undefined}
      * @private
      */
     onPayload(payload) {
@@ -142,7 +143,8 @@ class ThreadInstance {
      * An event which catches any errors thrown by the
      * thread itself, and then rejects the promise made
      * by the task.
-     * @param {Error} error 
+     * @param {Error} error
+     * @returns {undefined}
      * @private
      */
     onErrorPayload(error) {
