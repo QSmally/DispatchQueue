@@ -5,9 +5,10 @@
 
 
 # Features
-* Multiple dispatch groups available;
-* Configurable thread pool sizes;
-* Ensuring the best processing performance.
+* [x] Ideal thread selection for the best execution performance;
+* [x] Configurable and hot-scaling of thread pool sizes;
+* [ ] DispatchGroups;
+* [ ] Implementation of a thread wrapper.
 
 ## Installation
 `npm install dispatchqueue`
@@ -34,7 +35,7 @@ DQ
     .catch(error => { /* result issue */ });
 ```
 
-## Scaling (planned feature)
+## Scaling
 ```js
 // Adds or removes the delta of threads.
 // In this case, it will be -2, with a total amount
