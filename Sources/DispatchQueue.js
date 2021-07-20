@@ -1,4 +1,5 @@
 
+const ThreadInstance   = require("./Thread/ThreadInstance");
 const ThreadController = require("./Thread/ThreadController");
 
 const { cpus } = require("os");
@@ -30,7 +31,7 @@ class DispatchQueue {
             throw new TypeError(`Thread amount should be an unsigned integer, not "${threadAmount}".`);
         }
 
-        if (threadAmount <= 0) {
+        if (threadAmount < 1) {
             throw new TypeError("Amount of threads being spawned cannot be zero or negative.");
         }
 
@@ -74,6 +75,42 @@ class DispatchQueue {
      */
     task(payload) {
         return this.threadController.dataTask(payload);
+    }
+
+    /**
+     * Scales this DispatchQueue to the given amount of threads.
+     * @param {Number} absoluteThreadAmount Unsigned amount of total threads.
+     * @returns {Number}
+     */
+    scaleTo(absoluteThreadAmount) {
+        const delta = absoluteThreadAmount - this.threadAmount;
+        return this.scale(delta);
+    }
+
+    /**
+     * Scales the size of this DispatchQueue.
+     * @param {Number} deltaThreadAmount Signed amount of threads to change
+     * this DispatchQueue's total thread amount with.
+     * @returns {Number}
+     */
+    scale(deltaThreadAmount) {
+        if (this.threadAmount + deltaThreadAmount < 1) {
+            throw new TypeError("Resultant amount of threads cannot be zero or negative.");
+        }
+
+        if (deltaThreadAmount > 0) {
+            for (let i = 0; i < deltaThreadAmount; i++) {
+                const newThread = new ThreadInstance(this.path);
+                newThread.spawn();
+                this.threadController.workers.push(newThread);
+            }
+        } else {
+            this.threadController.workers
+                .splice(0, -deltaThreadAmount)
+                .forEach(worker => worker.willQuit = true);
+        }
+
+        return this.threadAmount;
     }
 }
 

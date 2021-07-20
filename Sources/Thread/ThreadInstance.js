@@ -31,6 +31,15 @@ class ThreadInstance {
     isActive = false;
 
     /**
+     * Indicator when this thread is scheduled to quit. The thread
+     * instance will finally exit when the queue is drained.
+     * @name ThreadInstance#willQuit
+     * @type {Boolean}
+     * @readonly
+     */
+    willQuit = false;
+
+    /**
      * Native thread interface by Node.
      * @name ThreadInstance#worker
      * @type {Worker?}
@@ -83,28 +92,23 @@ class ThreadInstance {
      * @async
      */
     async restart(code) {
-        if (code !== 0 && process.env.THREAD_DEBUG === true) {
-            console.debug(`Thread ${this.threadId} quit with a non-zero exit code: ${code}`);
-        }
+        await this.terminate(code);
+        this.tasks.nextTask();
 
-        await this.terminate();
-
-        // TODO:
-        // handle thread exit with code 0 when
-        // there are queued tasks left.
-
-        if (code !== 0) {
+        if (code !== 0 && !this.willQuit && this.tasks.remaining !== 0) {
             this.spawn();
-            this.tasks.nextTask();
         }
     }
 
     /**
      * Terminates the internal thread.
+     * @param {Number?} exitCode
      * @returns {Promise}
      * @async
      */
-    async terminate() {
+    async terminate(exitCode) {
+        console.debug(`Thread ${this.threadId} terminated${exitCode !== undefined ? ` with code ${exitCode}` : ""}.`);
+
         this.isActive = false;
         this.worker?.removeAllListeners();
         await this.worker?.terminate();
@@ -137,6 +141,10 @@ class ThreadInstance {
         this.currentTask?.resolve(payload);
         this.currentTask = null;
         this.tasks.nextTask();
+
+        if (this.willQuit && this.tasks.remaining === 0) {
+            this.terminate();
+        }
     }
 
     /**
