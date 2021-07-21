@@ -107,7 +107,8 @@ class ThreadInstance {
      * @async
      */
     async terminate(exitCode) {
-        console.debug(`Thread ${this.threadId} terminated${exitCode !== undefined ? ` with code ${exitCode}` : ""}.`);
+        const exitCodeMessage = exitCode == undefined ? "" : ` with code ${exitCode}`;
+        console.debug(`Thread ${this.threadId} terminated${exitCodeMessage}.`);
 
         this.isActive = false;
         this.worker?.removeAllListeners();
