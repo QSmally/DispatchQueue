@@ -7,7 +7,7 @@
 # Features
 * [x] Ideal thread selection for the best execution performance;
 * [x] Configurable and hot-scaling of thread pool sizes;
-* [ ] DispatchGroups;
+* [x] DispatchGroups;
 * [ ] Implementation of a thread wrapper.
 
 ## Installation
@@ -47,14 +47,14 @@ DQ.scaleTo(3);
 DQ.scale(1);
 ```
 
-## Group management (planned feature)
+## Group management
 ```js
 // A group of dispatch queues can be created, and they
 // are accessed using `.global()`.
 const services = new DispatchQueue.Group({
     "service_1": { path: "./path/to/service_1/worker.js", threadAmount: 3 },
-    "service_2": { path: "./path/to/service_2/worker.js", threadAmount: 5 },
-    "service_3": { path: "./path/to/service_3/worker.js", threadAmount: 4 }
+    "service_2": { path: "./path/to/service_2/worker.js", threadAmount: 5, deferThreadInit: true },
+    "service_3": { path: "./path/to/service_3/worker.js", threadAmount: 4, deferThreadInit: true }
 });
 
 services
