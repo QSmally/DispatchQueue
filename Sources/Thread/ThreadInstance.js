@@ -72,7 +72,9 @@ class ThreadInstance {
     currentTask = null;
 
     /**
-     * Spawns a thread and assigns it active.
+     * Spawns a thread and caches its unique
+     * thread identifier. When the worker is active,
+     * it marks it as usable.
      * @returns {Worker}
      */
     spawn() {
@@ -87,6 +89,8 @@ class ThreadInstance {
     }
 
     /**
+     * Conditionally restarts the thread if it's not
+     * queued for exit.
      * @param {Number} code A thread exit code.
      * @returns {undefined}
      * @async
@@ -102,7 +106,7 @@ class ThreadInstance {
 
     /**
      * Terminates the internal thread.
-     * @param {Number?} exitCode
+     * @param {Number?} exitCode A thread exit code.
      * @returns {Promise}
      * @async
      */
@@ -120,7 +124,7 @@ class ThreadInstance {
 
     /**
      * Inserts a task into the thread's queue.
-     * @param {Object} payload 
+     * @param {Object} payload A thread payload.
      * @returns {Promise}
      * @async
      */
@@ -134,7 +138,7 @@ class ThreadInstance {
     /**
      * An event which is performed whenever a response
      * from the thread is received.
-     * @param {Object} [payload]
+     * @param {Object} [payload] The thread's response payload.
      * @returns {undefined}
      * @private
      */
@@ -152,7 +156,7 @@ class ThreadInstance {
      * An event which catches any errors thrown by the
      * thread itself, and then rejects the promise made
      * by the task.
-     * @param {Error} error
+     * @param {Error} error The error which was thrown.
      * @returns {undefined}
      * @private
      */
