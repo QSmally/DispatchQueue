@@ -31,21 +31,22 @@ class ThreadController {
     workers = [];
 
     /**
-     * The original state of the DispatchQueue.
+     * Whether this ThreadController has performed its
+     * initialisation step to spawn all the thread instances.
+     * @name ThreadController#threadsSpawned
+     * @type {Boolean}
+     * @readonly
+     */
+    threadsSpawned = false;
+
+    /**
+     * If the threads of this DispatchQueue are not or still
+     * being initialised.
      * @name ThreadController#isInitialising
      * @type {Boolean}
      * @private
      */
     isInitialising = true;
-
-    /**
-     * Whether this ThreadController has performed its
-     * initialisation step to spawn all the thread instances.
-     * @name ThreadController#threadsSpawned
-     * @type {Boolean}
-     * @private
-     */
-    threadsSpawned = false;
 
     /**
      * Initialises all threads in this pool.
@@ -54,8 +55,8 @@ class ThreadController {
      */
     async instantiate() {
         const spawningThreads = this.workers
-            .filter(W => !W.isActive)
-            .map(W => once(W.spawn(), "online"));
+            .filter(thread => !thread.isActive)
+            .map(thread => once(thread.spawn(), "online"));
 
         this.threadsSpawned = true;
         await Promise.all(spawningThreads);

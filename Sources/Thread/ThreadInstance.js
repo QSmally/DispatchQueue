@@ -79,7 +79,7 @@ class ThreadInstance {
      */
     spawn() {
         this.worker = new Worker(this.path)
-            .once("online", () => { this.isActive = true; })
+            .once("online", () => this.isActive = true)
             .once("exit", code => this.restart(code))
             .on("message", payload => this.onPayload(payload))
             .on("error", error => this.onErrorPayload(error));
@@ -111,7 +111,7 @@ class ThreadInstance {
      * @async
      */
     async terminate(exitCode) {
-        const exitCodeMessage = exitCode == undefined ? "" : ` with code ${exitCode}`;
+        const exitCodeMessage = isNaN(exitCode) ? "" : ` with code ${exitCode}`;
         console.debug(`Thread ${this.threadId} terminated${exitCodeMessage}.`);
 
         this.isActive = false;
