@@ -7,7 +7,7 @@ class DispatchGroup {
      */
     constructor(dispatchQueues = {}) {
         for (const [name, properties] of Object.entries(dispatchQueues)) {
-            this.threadGroups.set(name, this.createDispatchQueue(properties));
+            this.threadGroups.set(name, DispatchGroup.createDispatchQueue(properties));
         }
     }
 
@@ -24,8 +24,9 @@ class DispatchGroup {
      * @param {Object} properties An object of properties describing it.
      * @returns {DispatchQueue}
      * @private
+     * @static
      */
-    createDispatchQueue({ path, threadAmount, deferThreadInit }) {
+    static createDispatchQueue({ path, threadAmount, deferThreadInit }) {
         const DispatchQueue = require("./DispatchQueue");
         return new DispatchQueue(path, threadAmount, deferThreadInit);
     }
