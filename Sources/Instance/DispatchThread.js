@@ -1,11 +1,21 @@
 
-const { parentPort } = require("worker_threads");
+const { isMainThread, parentPort, threadId } = require("worker_threads");
 
 class DispatchThread {
+
+    /**
+     * A class which interfaces one individual thread.
+     * @example class MyThread extends DispatchQueue.Thread { ... }
+     * @implements {Worker}
+     */
     constructor() {
-        this.parent.on("message", payload => {
-            this.replied = false;
-            this.onPayload(payload);
+        if (isMainThread) {
+            throw new Error("DispatchThread instance can only be instantiated in a worker thread.");
+        }
+
+        this.parent.on("message", incomingPayload => {
+            this.taskReplied = false;
+            this.onPayload(incomingPayload);
         });
 
         this.onSpawn();
@@ -21,12 +31,24 @@ class DispatchThread {
     parent = parentPort;
 
     /**
-     * 
+     * Internal state which manages the amount of replies
+     * replies this thread gives, and handles them
+     * accordingly.
      * @name DispatchThread#replied
      * @type {Boolean}
      * @private
      */
-    replied = false;
+     taskReplied = true;
+
+    /**
+     * Thread identifier.
+     * @name DispatchThread#id
+     * @type {Number}
+     * @readonly
+     */
+    get id() {
+        return threadId;
+    }
 
     /**
      * Sends back an optional payload and marks this
@@ -36,12 +58,12 @@ class DispatchThread {
      * @returns {undefined}
      */
     resolve(payload) {
-        if (this.replied) {
+        if (this.taskReplied) {
             throw new Error("Thread already marked task as done, unable to send concurrent reply.");
         }
 
         this.parent.postMessage(payload);
-        this.replied = true;
+        this.taskReplied = true;
     }
 
     /**
