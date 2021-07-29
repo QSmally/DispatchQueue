@@ -2,12 +2,14 @@
 const DispatchGroup    = require("./Group");
 const ThreadInstance   = require("./Thread/ThreadInstance");
 const ThreadController = require("./Thread/ThreadController");
+const DispatchThread   = require("./Instance/DispatchThread");
 
 const { cpus } = require("os");
 
 class DispatchQueue {
 
     static Group = DispatchGroup;
+    static Thread = DispatchThread;
 
     /**
      * The main interface for interacting with one DispatchQueue instance.
