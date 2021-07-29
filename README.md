@@ -5,10 +5,10 @@
 
 
 # Features
-* [x] Ideal thread selection for the best execution performance;
-* [x] Configurable and hot-scaling of thread pool sizes;
-* [x] DispatchGroups;
-* [ ] Implementation of a thread wrapper.
+* Ideal thread selection for the best execution performance;
+* Configurable and hot-scaling of thread pool sizes;
+* DispatchGroups;
+* Implementation of a thread wrapper, DispatchThread.
 
 ## Installation
 `npm install dispatchqueue`
@@ -63,17 +63,19 @@ services
     // ...
 ```
 
-## Thread implementation (planned feature)
+## Thread implementation
 ```js
 // A file at the given thread path can use the native
 // worker API Node gives, or the implementation of a
 // class-based wrapper.
-// DispatchThread handles cases such as pings automatically.
+
+// *For the future*, DispatchThread handles cases such
+// as pings and different thread modes automatically.
 class Thread extends DispatchQueue.Thread {
     onPayload(data) {
         // ...
-        this.resolve(result); // or
-        throw new Error("Execution failed");
+        this.resolve({ result, threadId: this.id }); // or
+        throw new Error("Execution on thread failed");
     }
 }
 
