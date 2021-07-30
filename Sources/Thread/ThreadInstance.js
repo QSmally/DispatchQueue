@@ -56,6 +56,14 @@ class ThreadInstance {
     threadId = null;
 
     /**
+     * Timestamp when this thread was last (re)spawned.
+     * @name ThreadInstance#lastSpawnedAt
+     * @type {Number?}
+     * @readonly
+     */
+    lastSpawnedAt = null;
+
+    /**
      * Queued data tasks.
      * @name ThreadInstance#tasks
      * @type {TaskQueue}
@@ -85,6 +93,7 @@ class ThreadInstance {
             .on("error", error => this.onErrorPayload(error));
 
         this.threadId = this.worker.threadId;
+        this.lastSpawnedAt = Date.now();
         return this.worker;
     }
 
