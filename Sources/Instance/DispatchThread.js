@@ -38,7 +38,7 @@ class DispatchThread {
      * @type {Boolean}
      * @private
      */
-     taskReplied = true;
+    taskReplied = true;
 
     /**
      * Thread identifier.
