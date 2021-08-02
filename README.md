@@ -5,8 +5,9 @@
 
 
 # Features
-* Ideal thread selection for the best execution performance;
-* Configurable and hot-scaling of thread pool sizes;
+* Ideal thread for the least return latency;
+* Configurable and hot-scaling of pool sizes;
+* Automatic restart of failed threads;
 * DispatchGroups;
 * Implementation of a thread wrapper, DispatchThread.
 
@@ -38,13 +39,13 @@ DQ
 ## Scaling
 ```js
 // Adds or removes the delta of threads.
-// In this case, it will be -2, with a total amount
-// of threads being 3.
-DQ.scaleTo(3);
+// In this case, it will be 3, with a total amount
+// of execution threads going to be 8.
+DQ.scaleTo(8);
 
 // Scales up or down by a given amount of threads.
-// In this case, with the action above, it will be 4.
-DQ.scale(1);
+// In this case, with the action above, it will be 5.
+DQ.scale(-3);
 ```
 
 ## Group management
