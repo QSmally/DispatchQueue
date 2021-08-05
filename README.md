@@ -75,7 +75,7 @@ services
 class Thread extends DispatchQueue.Thread {
     onPayload(data) {
         // ...
-        this.resolve({ result, threadId: this.id }); // or
+        this.resolve({ result, threadId: this.identifier }); // or
         throw new Error("Execution on thread failed");
     }
 }

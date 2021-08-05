@@ -46,7 +46,7 @@ class DispatchThread {
      * @type {Number}
      * @readonly
      */
-    get id() {
+    get identifier() {
         return threadId;
     }
 
