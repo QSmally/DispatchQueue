@@ -43,14 +43,14 @@ DQ
 // of execution threads going to be 8.
 DQ.scaleTo(8);
 
+// Scales up or down by a given amount of threads.
+// In this case, with the action above, it will be 5.
+DQ.scale(-3);
+
 // Tip: calculate the amount of threads your program
 // needs per amount of users on a scheduler. It'll act
 // for 1 thread per 5000 users in this setup.
 QD.scaleTo(Math.ceil(userAmount / 5e3));
-
-// Scales up or down by a given amount of threads.
-// In this case, with the action above, it will be 5.
-DQ.scale(-3);
 ```
 
 ## Group management
