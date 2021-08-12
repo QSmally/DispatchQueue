@@ -120,8 +120,8 @@ class ThreadInstance {
      * @async
      */
     async terminate(exitCode) {
-        const exitCodeMessage = isNaN(exitCode) ? "" : ` with code ${exitCode}`;
-        console.debug(`Thread ${this.threadId} terminated${exitCodeMessage}.`);
+        const exitCodeMessage = isNaN(exitCode) ? "" : ` with exit code ${exitCode}`;
+        console.debug(`Thread ${this.threadId} terminated${exitCodeMessage} (remaining tasks: ${this.tasks.remaining}).`);
 
         this.isActive = false;
         this.worker?.removeAllListeners();

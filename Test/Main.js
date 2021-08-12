@@ -45,6 +45,25 @@ const interval = setInterval(() => {
                     console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
                     console.log("expect 40 to fail, because test error causing thread exit");
                     console.log([...tests.entries()].filter(R => R[1] === false));
+
+                    let newIteration = 0;
+
+                    const newInterval = setInterval(() => {
+                        DQ.task({ hello: "again", iteration: "exit test" })
+                            .then(console.log)
+                            .catch(console.error);
+                        newIteration++;
+
+                        if (newIteration === 20) {
+                            console.log("scaling to 1 thread");
+                            DQ.scaleTo(1);
+                        }
+
+                        if (newIteration === 40) {
+                            clearInterval(newInterval);
+                            console.assert(DQ.activeThreadAmount === 1, "if you're seeing this, workers could not scale down to 1");
+                        }
+                    }, 1);
                 }, 100);
             }
         })
