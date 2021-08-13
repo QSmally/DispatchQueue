@@ -26,15 +26,24 @@ const interval = setInterval(() => {
     if (iteration === 30) {
         console.log("scaling to 6 threads");
         DQ.scaleTo(6);
+        console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
     }
 
     if (iteration === 75) {
         console.log("scaling down to 5 threads");
         DQ.scale(-1);
+        console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
     }
 
+    const payload = {
+        hello: "world",
+        iteration,
+        shouldError: iteration === 40,
+        shouldTimeout: iteration === 41
+    };
+
     DQ
-        .task({ hello: "world", iteration, shouldError: iteration === 40 })
+        .task(payload)
         .then(result => {
             console.log(result);
             tests.set(result.iteration, true);
@@ -43,13 +52,13 @@ const interval = setInterval(() => {
                 setTimeout(() => {
                     console.log("async tasks are completed");
                     console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
-                    console.log("expect 40 to fail, because test error causing thread exit");
+                    console.log("failed tasks (expect 40 and 41 to fail, because test error causing thread exit)");
                     console.log([...tests.entries()].filter(R => R[1] === false));
 
                     let newIteration = 0;
 
                     const newInterval = setInterval(() => {
-                        DQ.task({ hello: "again", iteration: "exit test" })
+                        DQ.task({ hello: "again", iteration: newIteration })
                             .then(console.log)
                             .catch(console.error);
                         newIteration++;
@@ -62,6 +71,7 @@ const interval = setInterval(() => {
                         if (newIteration === 40) {
                             clearInterval(newInterval);
                             console.assert(DQ.activeThreadAmount === 1, "if you're seeing this, workers could not scale down to 1");
+                            process.exit(0);
                         }
                     }, 1);
                 }, 100);
