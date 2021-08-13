@@ -108,7 +108,7 @@ class ThreadInstance {
         await this.terminate(code);
         this.tasks.nextTask();
 
-        if (code !== 0 && !this.willQuit && this.tasks.remaining !== 0) {
+        if (!this.willQuit || this.tasks.remaining !== 0) {
             this.spawn();
         }
     }
