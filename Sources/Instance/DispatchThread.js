@@ -4,6 +4,15 @@ const { isMainThread, parentPort, threadId } = require("worker_threads");
 class DispatchThread {
 
     /**
+     * A time in milliseconds which states the maximum
+     * amount of time the execution of a task should take.
+     * @name DispatchThread#automaticRejectionTime
+     * @type {Number}
+     * @abstract
+     */
+    static automaticRejectionTime = Infinity;
+
+    /**
      * A class which interfaces one individual thread.
      * @example class MyThread extends DispatchQueue.Thread { ... }
      * @implements {Worker}
@@ -14,6 +23,12 @@ class DispatchThread {
         }
 
         this.parent.on("message", incomingPayload => {
+            if (this.constructor.automaticRejectionTime !== Infinity) {
+                this.rejectionTimeout = setTimeout(() => {
+                    this.onTimeExceeded();
+                }, this.constructor.automaticRejectionTime);
+            }
+
             this.taskReplied = false;
             this.onPayload(incomingPayload);
         });
@@ -26,7 +41,7 @@ class DispatchThread {
      * interfaced by Node.
      * @name DispatchThread#parent
      * @type {ParentPort}
-     * @readonly
+     * @private
      */
     parent = parentPort;
 
@@ -39,6 +54,15 @@ class DispatchThread {
      * @private
      */
     taskReplied = true;
+
+    /**
+     * Internal state which manages the automatic rejection
+     * of tasks if it took too long to execute.
+     * @name DispatchThread#rejectionTimeout
+     * @type {Timeout}
+     * @private
+     */
+    rejectionTimeout = null;
 
     /**
      * Thread identifier.
@@ -63,6 +87,9 @@ class DispatchThread {
         }
 
         this.parent.postMessage(payload);
+
+        clearTimeout(this.rejectionTimeout);
+        this.rejectionTimeout = null;
         this.taskReplied = true;
     }
 
@@ -81,6 +108,17 @@ class DispatchThread {
      */
     onPayload(_payload) {
         this.resolve();
+    }
+
+    /**
+     * An abstract method which does clean-up tasks and crashes
+     * the thread when a task's execution takes longer than the
+     * set maximum amount of time.
+     * @throws
+     * @abstract
+     */
+    onTimeExceeded() {
+        throw new Error(`Thread took longer than ${this.constructor.automaticRejectionTime} ms to mark task as done.`);
     }
 }
 
