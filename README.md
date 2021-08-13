@@ -9,7 +9,8 @@
 * Configurable and hot-scaling of pool sizes;
 * Automatic restart of failed threads;
 * DispatchGroups;
-* Implementation of a thread wrapper, DispatchThread.
+* Implementation of a thread wrapper, DispatchThread;
+* Terminate tasks which take longer than x ms.
 
 ## Installation
 `npm install dispatchqueue`
@@ -78,6 +79,8 @@ services
 // *For the future*, DispatchThread handles cases such
 // as pings and different thread modes automatically.
 class Thread extends DispatchQueue.Thread {
+    static automaticRejectionTime = 30;
+
     onPayload(data) {
         // ...
         this.resolve({ result, threadId: this.identifier }); // or
