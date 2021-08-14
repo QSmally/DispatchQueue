@@ -12,9 +12,10 @@
   ],
   "homepage": "https://github.com/QSmally/DispatchQueue#readme",
   "repository": "github:QSmally/DispatchQueue",
+  "bugs": "https://github.com/QSmally/DispatchQueue/issues",
   "author": "QSmally",
   "license": "Apache 2.0",
-  "bugs": {
-    "url": "https://github.com/QSmally/DispatchQueue/issues"
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
