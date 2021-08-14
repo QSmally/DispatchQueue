@@ -46,7 +46,7 @@ class DispatchThread {
     parent = parentPort;
 
     /**
-     * Internal state which manages the amount of replies
+     * Internal state which manages the amount of outgoing
      * replies this thread gives, and handles them
      * accordingly.
      * @name DispatchThread#replied
@@ -57,7 +57,7 @@ class DispatchThread {
 
     /**
      * Internal state which manages the automatic rejection
-     * of tasks if it took too long to execute.
+     * of tasks if they take too long to execute.
      * @name DispatchThread#rejectionTimeout
      * @type {Timeout}
      * @private
