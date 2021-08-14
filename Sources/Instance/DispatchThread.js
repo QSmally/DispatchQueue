@@ -98,7 +98,9 @@ class DispatchThread {
      * was initially spawned.
      * @abstract
      */
-    onSpawn() {}
+    onSpawn() {
+        console.debug(`Thread ${this.identifier} spawned.`);
+    }
 
     /**
      * Payload received from the main thread.

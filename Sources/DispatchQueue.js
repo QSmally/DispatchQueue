@@ -67,7 +67,7 @@ class DispatchQueue {
      */
     get activeThreadAmount() {
         return this.threadController.workers
-            .filter(W => W.isActive)
+            .filter(worker => worker.isActive)
             .length;
     }
 
