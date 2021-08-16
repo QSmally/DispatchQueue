@@ -6,8 +6,12 @@ class DispatchGroup {
      * @param {Object} dispatchQueues An object with a name/properties scheme.
      */
     constructor(dispatchQueues = {}) {
+        const DispatchQueue = require("./DispatchQueue");
+
         for (const [name, properties] of Object.entries(dispatchQueues)) {
-            this.threadGroups.set(name, DispatchGroup.createDispatchQueue(properties));
+            const { path, threadAmount, deferThreadInit } = properties;
+            const dispatchQueue = new DispatchQueue(path, threadAmount, deferThreadInit);
+            this.threadGroups.set(name, dispatchQueue);
         }
     }
 
@@ -18,18 +22,6 @@ class DispatchGroup {
      * @readonly
      */
     threadGroups = new Map();
-
-    /**
-     * Creates one particular DispatchQueue configuration.
-     * @param {Object} properties An object of properties describing it.
-     * @returns {DispatchQueue}
-     * @private
-     * @static
-     */
-    static createDispatchQueue({ path, threadAmount, deferThreadInit }) {
-        const DispatchQueue = require("./DispatchQueue");
-        return new DispatchQueue(path, threadAmount, deferThreadInit);
-    }
 
     /**
      * Returns a configured DispatchQueue.
