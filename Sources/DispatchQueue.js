@@ -24,11 +24,7 @@ class DispatchQueue {
          * @type {Pathlike}
          * @readonly
          */
-        Object.defineProperty(this, "path", {
-            enumerable: true,
-            writable: false,
-            value: path
-        });
+        this.path = path;
 
         if (isNaN(threadAmount)) {
             throw new TypeError(`Thread amount should be an unsigned integer, not "${threadAmount}".`);
@@ -44,11 +40,7 @@ class DispatchQueue {
          * @type {ThreadController}
          * @private
          */
-        Object.defineProperty(this, "threadController", {
-            enumerable: false,
-            writable: false,
-            value: new ThreadController(path, threadAmount, deferThreadInit)
-        });
+        this.threadController = new ThreadController(path, threadAmount, deferThreadInit);
     }
 
     /**
