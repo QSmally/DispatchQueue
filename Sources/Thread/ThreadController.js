@@ -42,11 +42,11 @@ class ThreadController {
     /**
      * If the threads of this DispatchQueue are not or still
      * being initialised.
-     * @name ThreadController#isInitialising
+     * @name ThreadController#isStillInitialising
      * @type {Boolean}
      * @private
      */
-    isInitialising = true;
+    isStillInitialising = true;
 
     /**
      * Initialises all threads in this pool.
@@ -60,7 +60,7 @@ class ThreadController {
 
         this.threadsSpawned = true;
         await Promise.all(spawningThreads);
-        this.isInitialising = false;
+        this.isStillInitialising = false;
     }
 
     /**
@@ -84,7 +84,7 @@ class ThreadController {
      */
     idealWorker() {
         return this.workers.reduce((ideal, comparisonThread) => {
-            const overhead = !comparisonThread.isActive && !this.isInitialising ?
+            const overhead = !comparisonThread.isActive && !this.isStillInitialising ?
                 2 : 1;
 
             return ideal.tasks.remaining / overhead > comparisonThread.tasks.remaining ?
