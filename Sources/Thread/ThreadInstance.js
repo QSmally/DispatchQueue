@@ -15,11 +15,7 @@ class ThreadInstance {
          * @type {Pathlike}
          * @readonly
          */
-         Object.defineProperty(this, "path", {
-            enumerable: true,
-            writable: false,
-            value: path
-        });
+        this.path = path;
     }
 
     /**
