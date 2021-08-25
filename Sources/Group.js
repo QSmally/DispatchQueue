@@ -9,8 +9,8 @@ class DispatchGroup {
         const DispatchQueue = require("./DispatchQueue");
 
         for (const [name, properties] of Object.entries(dispatchQueues)) {
-            const { path, threadAmount, deferThreadInit } = properties;
-            const dispatchQueue = new DispatchQueue(path, threadAmount, deferThreadInit);
+            const { path, threadAmount, deferInitialisation } = properties;
+            const dispatchQueue = new DispatchQueue(path, threadAmount, deferInitialisation);
             this.threadGroups.set(name, dispatchQueue);
         }
     }
