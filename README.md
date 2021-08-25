@@ -60,8 +60,8 @@ QD.scaleTo(Math.ceil(userAmount / 5e3));
 // are accessed using `.global()`.
 const services = new DispatchQueue.Group({
     "service_1": { path: "./path/to/service_1/worker.js", threadAmount: 3 },
-    "service_2": { path: "./path/to/service_2/worker.js", threadAmount: 5, deferThreadInit: true },
-    "service_3": { path: "./path/to/service_3/worker.js", threadAmount: 4, deferThreadInit: true }
+    "service_2": { path: "./path/to/service_2/worker.js", threadAmount: 5, deferInitialisation: true },
+    "service_3": { path: "./path/to/service_3/worker.js", threadAmount: 4, deferInitialisation: true }
 });
 
 services
