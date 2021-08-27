@@ -44,7 +44,7 @@ class ThreadController {
      * being initialised.
      * @name ThreadController#isStillInitialising
      * @type {Boolean}
-     * @private
+     * @readonly
      */
     isStillInitialising = true;
 
