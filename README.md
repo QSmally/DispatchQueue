@@ -24,14 +24,14 @@ const DispatchQueue = require("dispatchqueue");
 ```js
 const path = "./path/to/worker.js";
 const threadAmount = 5;
-const DQ = new DispatchQueue(path, threadAmount);
+const dispatch = new DispatchQueue(path, threadAmount);
 ```
 
 ## Task creation
 ```js
 // Schedules a task and finds the ideal thread to
 // perform it on.
-DQ
+dispatch
     .task({ /* data */ })
     .then(result => { /* result completion */ })
     .catch(error => { /* result issue */ });
@@ -42,16 +42,16 @@ DQ
 // Adds or removes the delta of threads.
 // In this case, it will be 3, with a total amount
 // of execution threads going to be 8.
-DQ.scaleTo(8);
+dispatch.scaleTo(8);
 
 // Scales up or down by a given amount of threads.
 // In this case, with the action above, it will be 5.
-DQ.scale(-3);
+dispatch.scale(-3);
 
 // Tip: calculate the amount of threads your program
 // needs per amount of users on a scheduler. It'll act
 // for 1 thread per 5000 users in this setup.
-QD.scaleTo(Math.ceil(userAmount / 5e3));
+dispatch.scaleTo(Math.ceil(userAmount / 5e3));
 ```
 
 ## Group management
@@ -79,6 +79,7 @@ services
 // *For the future*, DispatchThread handles cases such
 // as pings and different thread modes automatically.
 class Thread extends DispatchQueue.Thread {
+
     static automaticRejectionTime = 30;
 
     onPayload(data) {
