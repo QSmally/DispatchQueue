@@ -5,9 +5,9 @@
 
 
 # Features
-* Ideal thread for the least return latency;
+* Ideal thread for significant performance;
 * Configurable and hot-scaling of pool sizes;
-* Automatic restart of failed threads;
+* Automatic restart of failed workers;
 * DispatchGroups;
 * Implementation of a thread wrapper, DispatchThread;
 * Terminate tasks which take longer than x ms.
