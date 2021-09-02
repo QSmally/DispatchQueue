@@ -28,7 +28,7 @@ class ThreadInstance {
 
     /**
      * Indicator when this thread is scheduled to quit. The thread
-     * instance will finally exit when the queue is drained.
+     * instance will eventually exit when the queue is drained.
      * @name ThreadInstance#willQuit
      * @type {Boolean}
      * @readonly
@@ -141,8 +141,8 @@ class ThreadInstance {
     }
 
     /**
-     * An event which is performed whenever a response
-     * from the thread is received.
+     * An event which is performed whenever a response from
+     * the thread is received.
      * @param {Object} [payload] The thread's response payload.
      * @returns {undefined}
      * @private
@@ -159,8 +159,8 @@ class ThreadInstance {
 
     /**
      * An event which catches any errors thrown by the
-     * thread itself, and then rejects the promise made
-     * by the task.
+     * thread itself, and then rejects the promise made by
+     * the task.
      * @param {Error} error The error which was thrown.
      * @returns {undefined}
      * @private

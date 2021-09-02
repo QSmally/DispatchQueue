@@ -1,5 +1,6 @@
 
 class TaskQueue {
+
     /**
      * The property that holds all queued items.
      * @name TaskQueue#queue

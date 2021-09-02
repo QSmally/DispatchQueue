@@ -83,13 +83,13 @@ class ThreadController {
      * @private
      */
     idealWorker() {
-        return this.workers.reduce((ideal, comparisonThread) => {
+        return this.workers.reduce((idealThread, comparisonThread) => {
             const overhead = !comparisonThread.isActive && !this.isStillInitialising ?
                 2 : 1;
 
-            return ideal.tasks.remaining / overhead > comparisonThread.tasks.remaining ?
+            return idealThread.tasks.remaining / overhead > comparisonThread.tasks.remaining ?
                 comparisonThread :
-                ideal;
+                idealThread;
         });
     }
 }
