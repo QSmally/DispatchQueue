@@ -67,7 +67,7 @@ class DispatchThread {
 
     /**
      * Thread identifier.
-     * @name DispatchThread#id
+     * @name DispatchThread#identifier
      * @type {Number}
      * @readonly
      */
@@ -79,7 +79,7 @@ class DispatchThread {
      * Sends back an optional payload and marks this
      * request as finished. It is required to run this
      * function once to shift the task queue.
-     * @param {Any} [payload] 
+     * @param {Any} [payload]
      * @returns {undefined}
      */
     resolve(payload) {
@@ -105,7 +105,7 @@ class DispatchThread {
 
     /**
      * Payload received from the main thread.
-     * @param {Any} [payload] 
+     * @param {Any} [payload]
      * @returns {Any}
      * @abstract
      */
