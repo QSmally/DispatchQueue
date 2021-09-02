@@ -4,8 +4,9 @@ const { isMainThread, parentPort, threadId } = require("worker_threads");
 class DispatchThread {
 
     /**
-     * A time in milliseconds which states the maximum
+     * A duration in milliseconds which states the maximum
      * amount of time the execution of a task should take.
+     * By default, this property is 'Infinity'.
      * @name DispatchThread#automaticRejectionTime
      * @type {Number}
      * @abstract
