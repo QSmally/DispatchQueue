@@ -50,7 +50,7 @@ class DispatchThread {
      * Internal state which manages the amount of outgoing
      * replies this thread gives, and handles them
      * accordingly.
-     * @name DispatchThread#replied
+     * @name DispatchThread#taskReplied
      * @type {Boolean}
      * @private
      */
@@ -80,7 +80,6 @@ class DispatchThread {
      * request as finished. It is required to run this
      * function once to shift the task queue.
      * @param {Any} [payload]
-     * @returns {undefined}
      */
     resolve(payload) {
         if (this.taskReplied) {
@@ -106,7 +105,6 @@ class DispatchThread {
     /**
      * Payload received from the main thread.
      * @param {Any} [payload]
-     * @returns {Any}
      * @abstract
      */
     onPayload(_payload) {
