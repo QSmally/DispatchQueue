@@ -22,6 +22,8 @@ const DispatchQueue = require("dispatchqueue");
 
 # Usage
 ```js
+// For a FIFO queue, also known as serial-behaviour,
+// a thread amount of 1 can be configured.
 const path = "./path/to/worker.js";
 const threadAmount = 5;
 const dispatch = new DispatchQueue(path, threadAmount);
