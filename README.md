@@ -5,11 +5,11 @@
 
 
 # Features
-* Ideal thread for significant performance;
+* Ideal thread for concurrent performance;
 * Configurable and hot-scaling of pool sizes;
 * Automatic restart of failed workers;
 * DispatchGroups;
-* Implementation of a thread wrapper, DispatchThread;
+* A thread implementation, DispatchThread;
 * Terminate tasks which take longer than x ms.
 
 ## Installation
