@@ -1,81 +1,77 @@
 
 const DispatchQueue = require("../Sources/DispatchQueue");
 
-const DQ = new DispatchQueue("./Test/Thread.js", 4);
+const queue = new DispatchQueue("./Test/Thread.js", 4);
+console.assert(queue.threadAmount === 4, "Dispatch must have 4 threads");
+console.assert(queue.activeThreadAmount === 0, "Dispatch must have 4 offline threads (just spawned)");
 
-console.log(DQ);
-console.log(`[main] threads: ${DQ.threadAmount}`);
-console.log(`[main] of which active: ${DQ.activeThreadAmount}`);
+// Comparable results
+const kErrorKey = 40;
+const kTimeoutKey = 41;
+const sourceCompareTasks = Array.from(Array(99), (_, index) => {
+    const key = index + 1;
+    if (![kErrorKey, kTimeoutKey].includes(key)) return key;
+})
+    .filter(iteration => !!iteration);
 
+// Generated from tests
 let iteration = 0;
+const finishedTasks = [];
 
-const tests = new Map();
+// Generic methods
+function logThreads() {
+    const workerStates = queue.threadController.workers
+        .map(thread => `Thread ${thread.threadId}, is active: ${thread.isActive}`);
+    console.log(workerStates);
+}
 
+function completed() {
+    setTimeout(() => {
+        console.assert(queue.threadController.tasks.remaining === 0, `Queue not drained, ${queue.threadController.tasks.remaining} remaining`);
+        console.log(`Queue has been drained (${queue.threadController.tasks.remaining} remaining), all tasks completed`);
+
+        const difference = sourceCompareTasks.filter(task => !finishedTasks.includes(task));
+        console.assert(!difference.length, `Failed to mark tasks ${difference} as done`);
+        process.exit(0);
+    }, 300);
+}
+
+// Schedule a task every 1 ms
 const interval = setInterval(() => {
     iteration++;
 
-    if (iteration > 100) {
-        clearInterval(interval);
-        console.log("sync iterations are done");
-        console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
-        return;
+    if (iteration === 100) {
+        console.log(`Synchronous tasks are inserted into queue (${queue.threadController.tasks.remaining} remaining)`);
+        return clearInterval(interval);
     }
 
-    tests.set(iteration, false);
-
     if (iteration === 30) {
-        console.log("scaling to 6 threads");
-        DQ.scaleTo(6);
-        console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
+        console.log("Threads scaling up to 6 (+2)");
+        queue.scaleTo(6);
+        logThreads();
     }
 
     if (iteration === 75) {
-        console.log("scaling down to 5 threads");
-        DQ.scale(-1);
-        console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
+        console.log("Threads scaling down to 5 (-1)");
+        queue.scale(-1);
+        logThreads();
     }
 
     const payload = {
-        hello: "world",
+        hello: "world!",
         iteration,
-        shouldError: iteration === 40,
-        shouldTimeout: iteration === 41
+        doError: iteration === kErrorKey,
+        doTimeout: iteration === kTimeoutKey
     };
 
-    DQ
+    console.log(iteration);
+
+    queue
         .task(payload)
-        .then(result => {
-            console.log(result);
-            tests.set(result.iteration, true);
-
-            if (result.iteration === 100) {
-                setTimeout(() => {
-                    console.log("async tasks are completed");
-                    console.log(DQ.threadController.workers.map(W => `thread ${W.threadId}, queue size: ${W.tasks.remaining}`));
-                    console.log("failed tasks (expect 40 and 41 to fail, because test error causing thread exit)");
-                    console.log([...tests.entries()].filter(R => R[1] === false));
-
-                    let newIteration = 0;
-
-                    const newInterval = setInterval(() => {
-                        DQ.task({ hello: "again", iteration: newIteration })
-                            .then(console.log)
-                            .catch(console.error);
-                        newIteration++;
-
-                        if (newIteration === 20) {
-                            console.log("scaling to 1 thread");
-                            DQ.scaleTo(1);
-                        }
-
-                        if (newIteration === 40) {
-                            clearInterval(newInterval);
-                            console.assert(DQ.activeThreadAmount === 1, "if you're seeing this, workers could not scale down to 1");
-                            process.exit(0);
-                        }
-                    }, 1);
-                }, 100);
-            }
+        .then(taskResultPayload => {
+            console.log(taskResultPayload);
+            finishedTasks.push(taskResultPayload.iteration);
+            if (payload.iteration === 99) completed(taskResultPayload);
         })
         .catch(console.error);
 }, 1);
