@@ -5,7 +5,7 @@
 
 
 # Features
-* Ideal thread for concurrent performance;
+* Central dispatch queue;
 * Configurable and hot-scaling of pool sizes;
 * Automatic restart of failed workers;
 * DispatchGroups;
