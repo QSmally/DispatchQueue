@@ -120,13 +120,11 @@ class ThreadInstance {
     /**
      * Applies a task for this thread.
      * @param {Object} task A thread task.
-     * @returns {Promise}
      * @async
      */
     async dataTask(task) {
         this.currentTask = task;
         this.worker.postMessage(task.payload);
-        return task.promise;
     }
 
     /**
@@ -157,6 +155,7 @@ class ThreadInstance {
     onErrorPayload(error) {
         this.currentTask?.reject(error);
         this.currentTask = null;
+        this.isActive = false;
     }
 }
 

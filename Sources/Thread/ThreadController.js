@@ -71,16 +71,17 @@ class ThreadController {
     async dataTask(payload) {
         if (!this.threadsSpawned) await this.instantiate();
         const idealConcurrentWorker = this.workers
-            .filter(thread => !thread.currentTask)[0];
+            .filter(thread => !thread.currentTask && thread.isActive)[0];
 
         const task = {
             payload,
             ...TaskQueue.createAsyncPromise()
         };
 
-        return idealConcurrentWorker ?
+        idealConcurrentWorker ?
             idealConcurrentWorker.dataTask(task) :
             this.tasks.schedule(task);
+        return task.promise;
     }
 }
 

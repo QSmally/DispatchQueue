@@ -25,7 +25,6 @@ class TaskQueue {
      */
     schedule(task) {
         this.queue.push(task);
-        return task.promise;
     }
 
     /**
