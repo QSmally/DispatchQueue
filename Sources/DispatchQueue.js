@@ -95,7 +95,7 @@ class DispatchQueue {
 
         if (deltaThreadAmount > 0) {
             for (let i = 0; i < deltaThreadAmount; i++) {
-                const newThread = new ThreadInstance(this.path);
+                const newThread = new ThreadInstance(this.path, this.threadController.tasks);
                 newThread.spawn();
                 this.threadController.workers.push(newThread);
             }

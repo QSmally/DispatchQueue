@@ -1,5 +1,6 @@
 
 const ThreadInstance = require("./ThreadInstance");
+const TaskQueue      = require("../Queue/TaskQueue");
 
 const { once } = require("events");
 
@@ -14,7 +15,7 @@ class ThreadController {
      */
     constructor(path, threadAmount, deferInitialisation) {
         for (let i = 0; i < threadAmount; i++) {
-            this.workers.push(new ThreadInstance(path));
+            this.workers.push(new ThreadInstance(path, this.tasks));
         }
 
         if (!deferInitialisation) {
@@ -31,6 +32,14 @@ class ThreadController {
     workers = [];
 
     /**
+     * Central queue of tasks.
+     * @name ThreadController#tasks
+     * @type {TaskQueue}
+     * @readonly
+     */
+    tasks = new TaskQueue();
+
+    /**
      * Whether this ThreadController has performed its
      * initialisation step to spawn all the thread instances.
      * @name ThreadController#threadsSpawned
@@ -38,15 +47,6 @@ class ThreadController {
      * @readonly
      */
     threadsSpawned = false;
-
-    /**
-     * If the threads of this DispatchQueue are not or still
-     * being initialised.
-     * @name ThreadController#isStillInitialising
-     * @type {Boolean}
-     * @readonly
-     */
-    isStillInitialising = true;
 
     /**
      * Initialises all threads in this pool.
@@ -60,7 +60,6 @@ class ThreadController {
 
         this.threadsSpawned = true;
         await Promise.all(spawningThreads);
-        this.isStillInitialising = false;
     }
 
     /**
@@ -71,26 +70,17 @@ class ThreadController {
      */
     async dataTask(payload) {
         if (!this.threadsSpawned) await this.instantiate();
-        const executionThread = this.idealWorker();
-        return executionThread.dataTask(payload);
-    }
+        const idealConcurrentWorker = this.workers
+            .filter(thread => !thread.currentTask)[0];
 
-    /**
-     * Returns the ideal thread in terms of current performance load.
-     * Keeps in mind uninitialised workers, and the overhead caused
-     * by spawning the thread.
-     * @returns {ThreadInstance}
-     * @private
-     */
-    idealWorker() {
-        return this.workers.reduce((idealThread, comparisonThread) => {
-            const overhead = !comparisonThread.isActive && !this.isStillInitialising ?
-                2 : 1;
+        const task = {
+            payload,
+            ...TaskQueue.createAsyncPromise()
+        };
 
-            return idealThread.tasks.remaining / overhead > comparisonThread.tasks.remaining ?
-                comparisonThread :
-                idealThread;
-        });
+        return idealConcurrentWorker ?
+            idealConcurrentWorker.dataTask(task) :
+            this.tasks.schedule(task);
     }
 }
 

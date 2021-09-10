@@ -19,28 +19,23 @@ class TaskQueue {
     }
 
     /**
-     * Generates a promise that gets resolved once the queued
-     * task is returned from the thread.
+     * Adds a new task to the queue.
+     * @param {Object} task A thread task.
      * @returns {Promise}
      */
-    wait() {
-        const nextQueuedItem = this.queue.length ?
-            this.queue[this.queue.length - 1].promise :
-            Promise.resolve();
-
-        const promise = TaskQueue.createAsyncPromise();
-        this.queue.push(promise);
-
-        return nextQueuedItem;
+    schedule(task) {
+        this.queue.push(task);
+        return task.promise;
     }
 
     /**
-     * Marks the item in the queue as resolved and unlocks
-     * the queue for the next task.
-     * @returns {undefined}
+     * Marks the the longest living task from the queue to be
+     * processed on a thread and removes it from the queue
+     * immediately.
+     * @returns {Object}
      */
-    nextTask() {
-        this.queue.shift()?.resolve();
+    pick() {
+        return this.queue.shift();
     }
 
     /**
