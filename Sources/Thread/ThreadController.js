@@ -69,7 +69,7 @@ class ThreadController {
      * @async
      */
     async dataTask(payload) {
-        if (!this.threadsSpawned) await this.instantiate();
+        if (!this.threadsSpawned) this.instantiate();
         const idealConcurrentWorker = this.workers
             .filter(thread => !thread.currentTask && thread.isActive)[0];
 
