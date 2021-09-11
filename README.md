@@ -61,13 +61,17 @@ dispatch.scaleTo(Math.ceil(userAmount / 5e3));
 // A group of dispatch queues can be created, and they
 // are accessed using `.global()`.
 const services = new DispatchQueue.Group({
-    "service_1": { path: "./path/to/service_1/worker.js", threadAmount: 3 },
-    "service_2": { path: "./path/to/service_2/worker.js", threadAmount: 5, deferInitialisation: true },
-    "service_3": { path: "./path/to/service_3/worker.js", threadAmount: 4, deferInitialisation: true }
+    "main": {
+        path: "./path/to/service_1/worker.js",
+        threadAmount: 3 },
+    "secondary": {
+        path: "./path/to/service_2/worker.js",
+        threadAmount: 5,
+        deferInitialisation: true },
 });
 
 services
-    .global("service_3")
+    .global("main")
     .task({ /* data */ });
     // ...
 ```

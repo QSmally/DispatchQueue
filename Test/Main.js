@@ -64,8 +64,6 @@ const interval = setInterval(() => {
         doTimeout: iteration === kTimeoutKey
     };
 
-    console.log(iteration);
-
     queue
         .task(payload)
         .then(taskResultPayload => {
