@@ -84,8 +84,8 @@ class ThreadInstance {
      */
     spawn() {
         this.worker = new Worker(this.path)
-            .once("online", () => this.isActive = true)
             .once("exit", code => this.terminate(code))
+            .once("online", () => this.onSpawn())
             .on("message", payload => this.onPayload(payload))
             .on("error", error => this.onErrorPayload(error));
 
@@ -96,7 +96,7 @@ class ThreadInstance {
 
     /**
      * Terminates the internal thread. If the exit code was
-     * non-zero, the thread will get restarted.
+     * non-zero, the thread will get restored.
      * @param {Number} exitCode A thread exit code.
      * @returns {Promise}
      * @async
@@ -125,6 +125,17 @@ class ThreadInstance {
     async dataTask(task) {
         this.currentTask = task;
         this.worker.postMessage(task.payload);
+    }
+
+    /**
+     * Registers this thread as online and fetches a new task
+     * from the queue.
+     * @private
+     */
+    onSpawn() {
+        this.isActive = true;
+        const fetchedTask = this.tasks.pick();
+        if (fetchedTask) this.dataTask(fetchedTask);
     }
 
     /**
