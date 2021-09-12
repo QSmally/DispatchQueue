@@ -22,8 +22,8 @@ const DispatchQueue = require("dispatchqueue");
 
 # Usage
 ```js
-// For a FIFO queue, also known as serial-behaviour,
-// a thread amount of 1 can be configured.
+// For a FIFO/serial queue, a thread amount of 1 can
+// be configured.
 const path = "./path/to/worker.js";
 const threadAmount = 5;
 const dispatch = new DispatchQueue(path, threadAmount);
@@ -31,8 +31,7 @@ const dispatch = new DispatchQueue(path, threadAmount);
 
 ## Task creation
 ```js
-// Schedules a task and finds the ideal thread to
-// perform it on.
+// Schedules a task to the queue.
 dispatch
     .task({ /* data */ })
     .then(result => { /* result completion */ })
@@ -67,7 +66,7 @@ const services = new DispatchQueue.Group({
     "secondary": {
         path: "./path/to/service_2/worker.js",
         threadAmount: 5,
-        deferInitialisation: true },
+        deferInitialisation: true }
 });
 
 services
