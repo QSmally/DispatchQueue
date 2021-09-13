@@ -21,7 +21,6 @@ class TaskQueue {
     /**
      * Adds a new task to the queue.
      * @param {Object} task A thread task.
-     * @returns {Promise}
      */
     schedule(task) {
         this.queue.push(task);
