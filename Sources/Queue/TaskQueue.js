@@ -4,7 +4,7 @@ class TaskQueue {
     /**
      * The property that holds all queued items.
      * @name TaskQueue#queue
-     * @type {Array<Object>}
+     * @type {Array<Task>}
      * @readonly
      */
     queue = [];
@@ -20,7 +20,7 @@ class TaskQueue {
 
     /**
      * Adds a new task to the queue.
-     * @param {Object} task A thread task.
+     * @param {Task} task A thread task.
      */
     schedule(task) {
         this.queue.push(task);
@@ -30,32 +30,10 @@ class TaskQueue {
      * Marks the the longest living task from the queue to be
      * processed on a thread and removes it from the queue
      * immediately.
-     * @returns {Object}
+     * @returns {Task}
      */
     pick() {
         return this.queue.shift();
-    }
-
-    /**
-     * Returns an object with outer `resolve` and `reject`
-     * methods, along with the promise itself.
-     * @returns {Object}
-     * @static
-     */
-    static createAsyncPromise() {
-        let resolveTask = null;
-        let rejectTask = null;
-
-        const promise = new Promise((resolve, reject) => {
-            resolveTask = resolve;
-            rejectTask = reject;
-        });
-
-        return {
-            promise,
-            resolve: resolveTask,
-            reject: rejectTask
-        };
     }
 }
 

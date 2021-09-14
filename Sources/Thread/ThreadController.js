@@ -1,4 +1,5 @@
 
+const Task           = require("../Thread/Task");
 const ThreadInstance = require("./ThreadInstance");
 const TaskQueue      = require("../Queue/TaskQueue");
 
@@ -73,10 +74,7 @@ class ThreadController {
         const idealConcurrentWorker = this.workers
             .filter(thread => !thread.currentTask && thread.isActive)[0];
 
-        const task = {
-            payload,
-            ...TaskQueue.createAsyncPromise()
-        };
+        const task = new Task(payload);
 
         idealConcurrentWorker ?
             idealConcurrentWorker.dataTask(task) :

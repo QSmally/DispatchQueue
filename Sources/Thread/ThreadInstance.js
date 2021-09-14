@@ -71,7 +71,7 @@ class ThreadInstance {
     /**
      * The currently executing data task.
      * @name ThreadInstance#currentTask
-     * @type {Object?}
+     * @type {Task?}
      * @readonly
      */
     currentTask = null;
@@ -119,7 +119,7 @@ class ThreadInstance {
 
     /**
      * Applies a task for this thread.
-     * @param {Object} task A thread task.
+     * @param {Task} task A thread task.
      */
     async dataTask(task) {
         this.currentTask = task;
