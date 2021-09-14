@@ -104,7 +104,7 @@ class DispatchThread {
 
     /**
      * Payload received from the main thread.
-     * @param {Any} [payload]
+     * @param {Object} [payload]
      * @abstract
      */
     onPayload(_payload) {
