@@ -1,5 +1,11 @@
 
 class Task {
+
+    /**
+     * Typed internal structure which represents one particular
+     * data task.
+     * @param {Object} payload An outgoing payload.
+     */
     constructor(payload) {
         /**
          * An outgoing payload to the thread.
@@ -11,9 +17,8 @@ class Task {
     }
 
     /**
-     * A promise with outer `resolve` and `reject`
-     * methods for communicating with the main thread,
-     * or origin thread.
+     * A promise with outer `resolve` and `reject` methods
+     * for communicating with the original thread.
      * @name Task#promise
      * @type {Promise}
      * @readonly
