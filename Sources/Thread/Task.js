@@ -2,7 +2,7 @@
 class Task {
 
     /**
-     * Typed internal structure which represents one particular
+     * Internal typed structure which represents one particular
      * data task.
      * @param {Object} payload An outgoing payload.
      */
@@ -18,12 +18,13 @@ class Task {
 
     /**
      * A promise with outer `resolve` and `reject` methods
-     * for communicating with the original thread.
+     * which communicate the task's execution result with the
+     * origin thread.
      * @name Task#promise
      * @type {Promise}
      * @readonly
      */
-     promise = new Promise((resolve, reject) => {
+    promise = new Promise((resolve, reject) => {
         this.resolve = resolve;
         this.reject = reject;
     });
