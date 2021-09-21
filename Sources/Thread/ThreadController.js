@@ -52,15 +52,12 @@ class ThreadController {
     /**
      * Initialises all threads in this pool.
      * @private
-     * @async
      */
-    async instantiate() {
-        const spawningThreads = this.workers
+    instantiate() {
+        this.workers
             .filter(thread => !thread.isActive)
             .map(thread => once(thread.spawn(), "online"));
-
         this.threadsSpawned = true;
-        await Promise.all(spawningThreads);
     }
 
     /**
