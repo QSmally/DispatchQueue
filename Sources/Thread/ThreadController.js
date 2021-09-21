@@ -63,7 +63,7 @@ class ThreadController {
     /**
      * Creates a data task.
      * @param {Object} payload Anything required by the thread implementation.
-     * @returns {Promise} Promise controller wrapping the result of the task.
+     * @returns {Promise} A new task promise.
      * @async
      */
     async dataTask(payload) {

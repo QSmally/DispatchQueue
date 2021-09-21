@@ -27,7 +27,7 @@ class DispatchQueue {
         this.path = path;
 
         if (isNaN(threadAmount)) {
-            throw new TypeError(`Thread amount should be an unsigned integer, not "${threadAmount}".`);
+            throw new TypeError(`Thread amount should be an unsigned integer, not "${typeof threadAmount}".`);
         }
 
         if (threadAmount < 1) {
