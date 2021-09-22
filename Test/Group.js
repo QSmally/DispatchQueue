@@ -13,7 +13,7 @@ const queues = new DispatchQueue.Group({
     [Services.secondary]: {
         path: "./Test/Thread.js",
         threadAmount: 1,
-        deferInitialisation: true }
+        lazyInitialisation: true }
 });
 
 const executionTasks = [
