@@ -66,7 +66,7 @@ const services = new DispatchQueue.Group({
     "secondary": {
         path: "./path/to/service_2/worker.js",
         threadAmount: 5,
-        deferInitialisation: true }
+        lazyInitialisation: true }
 });
 
 services

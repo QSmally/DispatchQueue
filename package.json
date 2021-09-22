@@ -1,6 +1,6 @@
 {
   "name": "dispatchqueue",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Swift's DispatchQueue recreated in Node.",
   "main": "Sources/DispatchQueue.js",
   "keywords": [
