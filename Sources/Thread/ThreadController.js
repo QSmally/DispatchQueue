@@ -11,15 +11,15 @@ class ThreadController {
      * A class which interfaces a thread queue.
      * @param {Pathlike} path A path to the thread implementation.
      * @param {Number} threadAmount Initial amount of threads.
-     * @param {Boolean} deferInitialisation Whether or not to wait with
+     * @param {Boolean} lazyInitialisation Whether or not to wait with
      * spawning threads until the first incoming task is registered.
      */
-    constructor(path, threadAmount, deferInitialisation) {
+    constructor(path, threadAmount, lazyInitialisation) {
         for (let i = 0; i < threadAmount; i++) {
             this.workers.push(new ThreadInstance(path, this.tasks));
         }
 
-        if (!deferInitialisation) {
+        if (!lazyInitialisation) {
             this.instantiate();
         }
     }
