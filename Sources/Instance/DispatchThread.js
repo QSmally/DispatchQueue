@@ -1,5 +1,7 @@
 
-const { isMainThread, parentPort, threadId } = require("worker_threads");
+const {
+    isMainThread, parentPort, threadId, workerData
+} = require("worker_threads");
 
 class DispatchThread {
 
@@ -73,6 +75,16 @@ class DispatchThread {
      */
     get identifier() {
         return threadId;
+    }
+
+    /**
+     * Provided from the origin thread, additional data.
+     * @name DispatchThread#dataContext
+     * @type {Object}
+     * @readonly
+     */
+    get dataContext() {
+        return workerData;
     }
 
     /**

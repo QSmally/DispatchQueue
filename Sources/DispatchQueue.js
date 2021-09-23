@@ -10,16 +10,28 @@ class DispatchQueue {
     static Thread = require("./Instance/DispatchThread");
 
     /**
+     * @typedef {Object} DispatchQueueInput
+     * @property {Number} threadAmount Initial amount of threads this queue
+     * should spawn. It defaults to the value returned by `os.cpus().length`.
+     * @property {Boolean} lazyInitialisation Whether or not to wait with
+     * spawning threads until the first task is registered. By default, this
+     * is disabled.
+     * @property {Object} dataContext Any data to provide to the thread.
+     */
+
+    /**
      * The main interface for interacting with one DispatchQueue instance.
      * @param {Pathlike} path A path to the thread implementation.
-     * @param {Number} [threadAmount] Initial amount of threads this queue
-     * should spawn. It defaults to the value returned by `os.cpus().length`.
-     * @param {Boolean} [lazyInitialisation] Whether or not to wait with
-     * spawning threads until the first incoming task is registered.
+     * @param {DispatchQueueInput} [optionals] Additional configuration with
+     * properties like `threadAmount`, `lazyInitialisation` and `dataContext`.
      */
-    constructor(path, threadAmount = cpus().length, lazyInitialisation = false) {
+    constructor(path, {
+        threadAmount = cpus().length,
+        lazyInitialisation = false,
+        dataContext = {}
+    } = {}) {
         /**
-         * A path to the thread implementation.
+         * A path to a DispatchThread implementation.
          * @name DispatchQueue#path
          * @type {Pathlike}
          * @readonly
@@ -40,7 +52,10 @@ class DispatchQueue {
          * @type {ThreadController}
          * @private
          */
-        this.threadController = new ThreadController(path, threadAmount, lazyInitialisation);
+        this.threadController = new ThreadController(path, {
+            threadAmount,
+            lazyInitialisation,
+            dataContext });
     }
 
     /**
@@ -95,7 +110,10 @@ class DispatchQueue {
 
         if (deltaThreadAmount > 0) {
             for (let i = 0; i < deltaThreadAmount; i++) {
-                const newThread = new ThreadInstance(this.path, this.threadController.tasks);
+                const newThread = new ThreadInstance(
+                    this.path,
+                    this.threadController.tasks,
+                    this.threadController.dataContext);
                 newThread.spawn();
                 this.threadController.workers.push(newThread);
             }

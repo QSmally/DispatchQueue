@@ -10,13 +10,20 @@ class ThreadController {
     /**
      * A class which interfaces a thread queue.
      * @param {Pathlike} path A path to the thread implementation.
-     * @param {Number} threadAmount Initial amount of threads.
-     * @param {Boolean} lazyInitialisation Whether or not to wait with
-     * spawning threads until the first incoming task is registered.
+     * @param {DispatchQueueInput} options A configurations object.
      */
-    constructor(path, threadAmount, lazyInitialisation) {
+    constructor(path, { threadAmount, lazyInitialisation, dataContext }) {
+        /**
+         * Additional data to provide the thread.
+         * @name ThreadController#dataContext
+         * @type {Object}
+         * @readonly
+         */
+        this.dataContext = dataContext;
+
         for (let i = 0; i < threadAmount; i++) {
-            this.workers.push(new ThreadInstance(path, this.tasks));
+            const thread = new ThreadInstance(path, this.tasks, dataContext);
+            this.workers.push(thread);
         }
 
         if (!lazyInitialisation) {

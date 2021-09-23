@@ -8,8 +8,9 @@ class ThreadInstance {
      * A representative class which delegates one particular worker thread.
      * @param {Pathlike} path A path to the thread implementation.
      * @param {TaskQueue} taskQueue Reference to the central task queue.
+     * @param {Object} dataContext Additional data to provide the thread.
      */
-    constructor(path, taskQueue) {
+    constructor(path, taskQueue, dataContext) {
         /**
          * A path to the thread implementation.
          * @name ThreadInstance#path
@@ -22,9 +23,19 @@ class ThreadInstance {
          * Queued data tasks.
          * @name ThreadInstance#tasks
          * @type {TaskQueue}
+         * @virtual reference
          * @readonly
          */
         this.tasks = taskQueue;
+
+        /**
+         * Additional data to provide the thread.
+         * @name ThreadInstance#dataContext
+         * @type {Object}
+         * @virtual reference
+         * @readonly
+         */
+        this.dataContext = dataContext;
     }
 
     /**
@@ -83,7 +94,7 @@ class ThreadInstance {
      * @returns {Worker}
      */
     spawn() {
-        this.worker = new Worker(this.path)
+        this.worker = new Worker(this.path, { workerData: this.dataContext })
             .once("exit", code => this.terminate(code))
             .once("online", () => this.onSpawn())
             .on("message", payload => this.onPayload(payload))
