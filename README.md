@@ -6,7 +6,7 @@
 
 # Features
 * Central dispatch queue;
-* Configurable and hot-scaling of pool sizes;
+* Configurable and hot-scaling of amount of threads;
 * Automatic restart of failed workers;
 * DispatchGroups;
 * A thread implementation, DispatchThread;
@@ -26,7 +26,7 @@ const DispatchQueue = require("dispatchqueue");
 // be configured.
 const path = "./path/to/worker.js";
 const threadAmount = 5;
-const dispatch = new DispatchQueue(path, threadAmount);
+const dispatch = new DispatchQueue(path, { threadAmount });
 ```
 
 ## Task creation
@@ -62,7 +62,8 @@ dispatch.scaleTo(Math.ceil(userAmount / 5e3));
 const services = new DispatchQueue.Group({
     "main": {
         path: "./path/to/service_1/worker.js",
-        threadAmount: 3 },
+        threadAmount: 3,
+        dataContext: { ... } },
     "secondary": {
         path: "./path/to/service_2/worker.js",
         threadAmount: 5,
@@ -77,19 +78,19 @@ services
 
 ## Thread implementation
 ```js
-// A file at the given thread path can use the native
-// worker API Node gives, or the implementation of a
-// class-based wrapper.
-
-// *For the future*, DispatchThread handles cases such
-// as pings and different thread modes automatically.
+// A file at the thread path can use DispatchThread,
+// which automatically ensures payload safety and other
+// synchronisation.
 class Thread extends DispatchQueue.Thread {
 
     static automaticRejectionTime = 30;
 
     onPayload(data) {
-        // ...
-        this.resolve({ result, threadId: this.identifier }); // or
+        const result = {
+            ...data,
+            context: this.dataContext,
+            threadId: this.identifier };
+        this.resolve(result); // or
         throw new Error("Execution on thread failed");
     }
 }
