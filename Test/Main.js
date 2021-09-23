@@ -1,7 +1,11 @@
 
 const DispatchQueue = require("../Sources/DispatchQueue");
 
-const queue = new DispatchQueue("./Test/Thread.js", 4);
+const dataContext = { hello: "from context" };
+
+const queue = new DispatchQueue("./Test/Thread.js", {
+    threadAmount: 4,
+    dataContext });
 console.assert(queue.threadAmount === 4, "Dispatch must have 4 threads");
 console.assert(queue.activeThreadAmount === 0, "Dispatch must have 4 offline threads (just spawned)");
 

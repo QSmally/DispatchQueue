@@ -6,14 +6,18 @@ class Services {
     static secondary = "service_2";
 }
 
+const dataContext = { hello: "from group" };
+
 const queues = new DispatchQueue.Group({
     [Services.main]: {
         path: "./Test/Thread.js",
-        threadAmount: 2 },
+        threadAmount: 2,
+        dataContext },
     [Services.secondary]: {
         path: "./Test/Thread.js",
         threadAmount: 1,
-        lazyInitialisation: true }
+        lazyInitialisation: true,
+        dataContext }
 });
 
 const executionTasks = [
@@ -27,7 +31,11 @@ let iteration = 0;
 for (const queue of executionTasks) {
     queues
         .global(queue)
-        .task({ hello: "from a group!", iteration: iteration++ })
+        .task({ iteration: iteration++ })
         .then(console.log)
         .catch(console.error);
 }
+
+setTimeout(() => {
+    process.exit(0);
+}, 300);
