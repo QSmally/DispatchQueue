@@ -13,14 +13,6 @@ class ThreadController {
      * @param {DispatchQueueInput} options A configurations object.
      */
     constructor(path, { threadAmount, lazyInitialisation, dataContext }) {
-        /**
-         * Additional data to provide the thread.
-         * @name ThreadController#dataContext
-         * @type {Object}
-         * @readonly
-         */
-        this.dataContext = dataContext;
-
         for (let i = 0; i < threadAmount; i++) {
             const thread = new ThreadInstance(path, this.tasks, dataContext);
             this.workers.push(thread);

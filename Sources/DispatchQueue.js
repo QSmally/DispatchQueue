@@ -38,6 +38,14 @@ class DispatchQueue {
          */
         this.path = path;
 
+        /**
+         * Additional data to provide the thread.
+         * @name DispatchQueue#dataContext
+         * @type {Object}
+         * @readonly
+         */
+        this.dataContext = dataContext;
+
         if (isNaN(threadAmount)) {
             throw new TypeError(`Thread amount should be an unsigned integer, not "${typeof threadAmount}".`);
         }
@@ -113,7 +121,7 @@ class DispatchQueue {
                 const newThread = new ThreadInstance(
                     this.path,
                     this.threadController.tasks,
-                    this.threadController.dataContext);
+                    this.dataContext);
                 newThread.spawn();
                 this.threadController.workers.push(newThread);
             }
