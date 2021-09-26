@@ -91,7 +91,7 @@ class DispatchThread {
      * Sends back an optional payload and marks this
      * request as finished. It is required to run this
      * function once to shift the task queue.
-     * @param {Any} [payload]
+     * @param {Object} [payload]
      */
     resolve(payload) {
         if (this.taskReplied) {
