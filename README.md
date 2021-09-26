@@ -1,7 +1,7 @@
 
 # DispatchQueue
 
-> Swift's [DispatchQueue](https://developer.apple.com/documentation/dispatch/dispatchqueue) recreated in Node.
+> Swift's [DispatchQueue](https://developer.apple.com/documentation/dispatch/dispatchqueue) recreated in ECMAScript/Node.
 
 
 # Features
