@@ -27,9 +27,8 @@ class TaskQueue {
     }
 
     /**
-     * Marks the the longest living task from the queue to be
-     * processed on a thread and removes it from the queue
-     * immediately.
+     * Marks the the longest living task from the queue to be processed on a
+     * thread and removes it from the queue immediately.
      * @returns {Task?}
      */
     pick() {

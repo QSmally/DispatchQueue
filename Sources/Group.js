@@ -7,8 +7,8 @@ class DispatchGroup {
      * @property {Number} threadAmount Initial amount of threads this queue
      * should spawn. It defaults to the value returned by `os.cpus().length`.
      * @property {Boolean} lazyInitialisation Whether or not to wait with
-     * spawning threads until the first task is registered. By default, this
-     * is disabled.
+     * spawning threads until the first task is registered. By default, this is
+     * disabled.
      * @property {Object} dataContext Any data to provide to the thread.
      */
 
@@ -40,7 +40,7 @@ class DispatchGroup {
 
     /**
      * Returns a configured DispatchQueue.
-     * @param {String} dispatchQueueName The representative name.
+     * @param {String} dispatchQueueName The representative queue name.
      * @returns {DispatchQueue?}
      */
     global(dispatchQueueName) {

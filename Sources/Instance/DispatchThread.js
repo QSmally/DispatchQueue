@@ -6,9 +6,9 @@ const {
 class DispatchThread {
 
     /**
-     * A duration in milliseconds which states the maximum
-     * amount of time the execution of a task should take.
-     * By default, this property is 'Infinity'.
+     * A duration in milliseconds which states the maximum amount of time the
+     * execution of a task should take. By default, this property is
+     * 'Infinity'.
      * @name DispatchThread#automaticRejectionTime
      * @type {Number}
      * @abstract
@@ -40,8 +40,7 @@ class DispatchThread {
     }
 
     /**
-     * The messaging port to the main thread, natively
-     * interfaced by Node.
+     * The messaging port to the main thread, natively interfaced by Node.
      * @name DispatchThread#parent
      * @type {ParentPort}
      * @private
@@ -49,9 +48,8 @@ class DispatchThread {
     parent = parentPort;
 
     /**
-     * Internal state which manages the amount of outgoing
-     * replies this thread gives, and handles them
-     * accordingly.
+     * Internal state which manages the amount of outgoing replies this thread
+     * gives, and handles them accordingly.
      * @name DispatchThread#taskReplied
      * @type {Boolean}
      * @private
@@ -59,8 +57,8 @@ class DispatchThread {
     taskReplied = true;
 
     /**
-     * Internal state which manages the automatic rejection
-     * of tasks if they take too long to execute.
+     * Internal state which manages the automatic rejection of tasks if they
+     * take too long to execute.
      * @name DispatchThread#rejectionTimeout
      * @type {Timeout}
      * @private
@@ -88,9 +86,8 @@ class DispatchThread {
     }
 
     /**
-     * Sends back an optional payload and marks this
-     * request as finished. It is required to run this
-     * function once to shift the task queue.
+     * Sends back an optional payload and marks this request as finished. It is
+     * required to run this function once to shift the task queue.
      * @param {Object} [payload]
      */
     resolve(payload) {
@@ -106,8 +103,7 @@ class DispatchThread {
     }
 
     /**
-     * A method that gets executed whenever this thread
-     * was initially spawned.
+     * A method that gets executed whenever this thread was initially spawned.
      * @abstract
      */
     onSpawn() {
@@ -124,9 +120,8 @@ class DispatchThread {
     }
 
     /**
-     * An abstract method which does clean-up tasks and crashes
-     * the thread when a task's execution takes longer than the
-     * set maximum amount of time.
+     * An abstract method which does clean-up tasks and crashes the thread when
+     * a task's execution takes longer than the set maximum amount of time.
      * @throws
      * @abstract
      */

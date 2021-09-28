@@ -167,9 +167,9 @@ class ThreadInstance {
     }
 
     /**
-     * An event which catches any errors thrown by the thread
-     * itself, and then rejects the promise made by the task.
-     * The exit event is emitted after this.
+     * An event which catches any errors thrown by the thread itself, and then
+     * rejects the promise made by the task. The exit event is emitted after
+     * this.
      * @param {Error} error The error which was thrown.
      * @private
      */
