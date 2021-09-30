@@ -40,8 +40,8 @@ class ThreadController {
     tasks = new TaskQueue();
 
     /**
-     * Whether this ThreadController has performed its
-     * initialisation step to spawn all the thread instances.
+     * Whether this ThreadController has performed its initialisation step to
+     * spawn all the thread instances.
      * @name ThreadController#threadsSpawned
      * @type {Boolean}
      * @readonly

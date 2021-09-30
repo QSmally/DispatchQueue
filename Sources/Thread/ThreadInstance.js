@@ -47,8 +47,8 @@ class ThreadInstance {
     isActive = false;
 
     /**
-     * Indicator when this thread is scheduled to quit. The thread
-     * instance will eventually exit when the queue is drained.
+     * Indicator when this thread is scheduled to quit. The thread instance
+     * will eventually exit when the queue is drained.
      * @name ThreadInstance#willQuit
      * @type {Boolean}
      * @readonly
@@ -88,9 +88,8 @@ class ThreadInstance {
     currentTask = null;
 
     /**
-     * Spawns a thread and caches its unique
-     * thread identifier. When the worker is active,
-     * it marks it as usable.
+     * Spawns a thread and caches its unique thread identifier. When the worker
+     * is active, it marks it as usable.
      * @returns {Worker}
      */
     spawn() {
@@ -106,8 +105,8 @@ class ThreadInstance {
     }
 
     /**
-     * Terminates the internal thread. If the exit code was
-     * non-zero, the thread will get restored.
+     * Terminates the internal thread. If the exit code was non-zero, the
+     * thread will get restored.
      * @param {Number} exitCode A thread exit code.
      * @returns {Promise}
      * @async
@@ -138,8 +137,7 @@ class ThreadInstance {
     }
 
     /**
-     * Registers this thread as online and fetches a new task
-     * from the queue.
+     * Registers this thread as online and fetches a new task from the queue.
      * @private
      */
     onSpawn() {
@@ -149,8 +147,8 @@ class ThreadInstance {
     }
 
     /**
-     * An event which is performed whenever a response from
-     * the thread is received.
+     * An event which is performed whenever a response from the thread is
+     * received.
      * @param {Object} [payload] The thread's response payload.
      * @private
      */
