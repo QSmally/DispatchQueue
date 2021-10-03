@@ -22,8 +22,7 @@ const DispatchQueue = require("dispatchqueue");
 
 # Usage
 ```js
-// For a FIFO/serial queue, a thread amount of 1 can
-// be configured.
+// For a FIFO/serial queue, a thread amount of 1 can be configured.
 const path = "./path/to/worker.js";
 const threadAmount = 5;
 const dispatch = new DispatchQueue(path, { threadAmount });
@@ -40,25 +39,24 @@ dispatch
 
 ## Scaling
 ```js
-// Adds or removes the delta of threads.
-// In this case, it will be 3, with a total amount
-// of execution threads going to be 8.
+// Scales to a given amount of absolute threads.
+// A total amount of execution threads is going to be 8.
 dispatch.scaleTo(8);
 
 // Scales up or down by a given amount of threads.
-// In this case, with the action above, it will be 5.
+// In this case, with the action above, it will be 5 total threads.
 dispatch.scale(-3);
 
-// Tip: calculate the amount of threads your program
-// needs per amount of users on a scheduler. It'll act
-// for 1 thread per 5000 users in this setup.
+// Tip: calculate the amount of threads your application needs per
+// amount of users on a scheduler. It'll spawn one thread for each
+// 5000 users, for example.
 dispatch.scaleTo(Math.ceil(userAmount / 5e3));
 ```
 
 ## Group management
 ```js
-// A group of dispatch queues can be created, and they
-// are accessed using `.global()`.
+// A group of dispatch queues can be created, and they are accessed
+// using `.global()`.
 const services = new DispatchQueue.Group({
     "main": {
         path: "./path/to/service_1/worker.js",
@@ -78,9 +76,8 @@ services
 
 ## Thread implementation
 ```js
-// A file at the thread path can use DispatchThread,
-// which automatically ensures payload safety and other
-// synchronisation.
+// A file at the thread path can use DispatchThread, which
+// automatically ensures payload safety and other synchronisation.
 class Thread extends DispatchQueue.Thread {
 
     static automaticRejectionTime = 30;
