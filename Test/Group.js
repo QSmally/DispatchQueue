@@ -6,18 +6,16 @@ class Services {
     static secondary = "service_2";
 }
 
-const dataContext = { hello: "from group" };
-
 const queues = new DispatchQueue.Group({
     [Services.main]: {
         path: "./Test/Thread.js",
         threadAmount: 2,
-        dataContext },
+        dataContext: { target: "main" } },
     [Services.secondary]: {
         path: "./Test/Thread.js",
         threadAmount: 1,
         lazyInitialisation: true,
-        dataContext }
+        dataContext: { target: "secondary" } }
 });
 
 const executionTasks = [
