@@ -10,6 +10,11 @@ class DispatchQueue {
     static Thread = require("./Instance/DispatchThread");
 
     /**
+     * Any path representable as a string.
+     * @typedef {String} Pathlike
+     */
+
+    /**
      * @typedef {Object} DispatchQueueInput
      * @property {Number} threadAmount Initial amount of threads this queue
      * should spawn. It defaults to the value returned by `os.cpus().length`.
