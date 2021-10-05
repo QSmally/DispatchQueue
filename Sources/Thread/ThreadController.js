@@ -3,8 +3,6 @@ const Task           = require("../Thread/Task");
 const ThreadInstance = require("./ThreadInstance");
 const TaskQueue      = require("../Queue/TaskQueue");
 
-const { once } = require("events");
-
 class ThreadController {
 
     /**
@@ -26,7 +24,7 @@ class ThreadController {
     /**
      * An array of usable threads.
      * @name ThreadController#workers
-     * @type {ThreadInstance}
+     * @type {Array<ThreadInstance>}
      * @readonly
      */
     workers = [];
@@ -50,12 +48,13 @@ class ThreadController {
 
     /**
      * Initialises all threads in this pool.
+     * @returns {Promise}
      * @private
      */
     instantiate() {
         this.workers
             .filter(thread => !thread.isActive)
-            .map(thread => once(thread.spawn(), "online"));
+            .forEach(thread => thread.spawn());
         this.threadsSpawned = true;
     }
 
@@ -67,13 +66,13 @@ class ThreadController {
      */
     async dataTask(payload) {
         if (!this.threadsSpawned) this.instantiate();
-        const idealConcurrentWorker = this.workers
-            .filter(thread => !thread.currentTask && thread.isActive)[0];
+        const idlingConcurrentWorker = this.workers
+            .find(thread => !thread.currentTask && thread.isActive);
 
         const task = new Task(payload);
 
-        idealConcurrentWorker ?
-            idealConcurrentWorker.dataTask(task) :
+        idlingConcurrentWorker ?
+            idlingConcurrentWorker.dataTask(task) :
             this.tasks.schedule(task);
         return task.promise;
     }

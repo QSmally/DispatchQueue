@@ -23,7 +23,6 @@ class ThreadInstance {
          * Queued data tasks.
          * @name ThreadInstance#tasks
          * @type {TaskQueue}
-         * @virtual reference
          * @readonly
          */
         this.tasks = taskQueue;
@@ -32,7 +31,6 @@ class ThreadInstance {
          * Additional data to provide the thread.
          * @name ThreadInstance#dataContext
          * @type {Object}
-         * @virtual reference
          * @readonly
          */
         this.dataContext = dataContext;

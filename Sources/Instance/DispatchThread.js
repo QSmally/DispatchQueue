@@ -22,7 +22,7 @@ class DispatchThread {
      */
     constructor() {
         if (isMainThread) {
-            throw new Error("DispatchThread instance can only be instantiated in a worker thread.");
+            throw new Error("DispatchThread can only be instantiated in a worker thread.");
         }
 
         this.parent.on("message", incomingPayload => {
@@ -40,7 +40,7 @@ class DispatchThread {
     }
 
     /**
-     * The messaging port to the main thread, natively interfaced by Node.
+     * The messaging port to the main thread, natively provided by Node.
      * @name DispatchThread#parent
      * @type {ParentPort}
      * @private
@@ -49,7 +49,7 @@ class DispatchThread {
 
     /**
      * Internal state which manages the amount of outgoing replies this thread
-     * gives, and handles them accordingly.
+     * gives, and handles them accordingly elsewhere.
      * @name DispatchThread#taskReplied
      * @type {Boolean}
      * @private
