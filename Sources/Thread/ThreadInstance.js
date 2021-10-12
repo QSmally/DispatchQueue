@@ -103,6 +103,16 @@ class ThreadInstance {
     }
 
     /**
+     * Indicates that this thread will quit in the near future. If possible, it
+     * immediately terminates the worker, only if there isn't any current task
+     * being executed.
+     */
+    quit() {
+        this.willQuit = true;
+        if (!this.currentTask) this.terminate(0);
+    }
+
+    /**
      * Terminates the internal thread. If the exit code was non-zero, the
      * thread will get restored.
      * @param {Number} exitCode A thread exit code.

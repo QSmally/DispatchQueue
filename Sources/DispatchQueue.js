@@ -133,7 +133,7 @@ class DispatchQueue {
         } else {
             this.threadController.workers
                 .splice(0, Math.abs(deltaThreadAmount))
-                .forEach(worker => worker.willQuit = true);
+                .forEach(worker => worker.quit());
         }
 
         return this.threadAmount;
