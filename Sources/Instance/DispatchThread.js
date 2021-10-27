@@ -33,7 +33,7 @@ class DispatchThread {
             }
 
             this.taskReplied = false;
-            this.onPayload(incomingPayload);
+            setImmediate(() => this.onPayload(incomingPayload));
         });
 
         this.onSpawn();
