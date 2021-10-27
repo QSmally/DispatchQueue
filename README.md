@@ -22,7 +22,7 @@ const DispatchQueue = require("dispatchqueue");
 
 # Usage
 ```js
-// For a FIFO/serial queue, a thread amount of 1 can be configured.
+// A thread amount of 1 can be configured for a FIFO/serial queue.
 const path = "./path/to/worker.js";
 const threadAmount = 5;
 const dispatch = new DispatchQueue(path, { threadAmount });
@@ -88,7 +88,7 @@ class Thread extends DispatchQueue.Thread {
             context: this.dataContext,
             threadId: this.identifier };
         this.resolve(result); // or
-        throw new Error("Execution on thread failed");
+        throw new Error("Task failed to execute");
     }
 }
 

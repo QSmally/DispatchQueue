@@ -92,7 +92,7 @@ class DispatchThread {
      */
     resolve(payload) {
         if (this.taskReplied) {
-            throw new Error("Thread already marked task as done, unable to send concurrent reply.");
+            throw new Error("Thread already marked task as done, unable to send subsequent reply.");
         }
 
         this.parent.postMessage(payload);
