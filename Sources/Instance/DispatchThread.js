@@ -16,7 +16,7 @@ class DispatchThread {
     static automaticRejectionTime = Infinity;
 
     /**
-     * A class which interfaces one individual thread.
+     * A class which interfaces one individual task thread.
      * @example class MyThread extends DispatchQueue.Thread { ... }
      * @implements {Worker}
      */
