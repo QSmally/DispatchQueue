@@ -3,6 +3,9 @@
   "version": "0.6.3",
   "description": "Swift's DispatchQueue recreated in ECMAScript/Node.",
   "main": "Sources/DispatchQueue.js",
+  "scripts": {
+    "test": "node Test/Main.js"
+  },
   "keywords": [
     "dispatch",
     "parallel",
