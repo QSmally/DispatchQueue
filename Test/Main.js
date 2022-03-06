@@ -6,12 +6,17 @@ const dataContext = { hello: "from context" };
 const queue = new DispatchQueue("./Test/Thread.js", {
     threadAmount: 4,
     dataContext });
-console.assert(queue.threadAmount === 4, "Dispatch must have 4 threads");
-console.assert(queue.activeThreadAmount === 0, "Dispatch must have 4 offline threads (just spawned)");
+console.assert(
+    queue.threadAmount === 4,
+    "Dispatch must have 4 threads");
+console.assert(
+    queue.activeThreadAmount === 0,
+    "Dispatch must have 4 offline threads (just spawned)");
 
 // Comparable results
 const kErrorKey = 40;
 const kTimeoutKey = 41;
+
 const sourceCompareTasks = Array.from(Array(99), (_, index) => {
     const key = index + 1;
     if (![kErrorKey, kTimeoutKey].includes(key)) return key;
@@ -31,7 +36,9 @@ function logThreads() {
 
 function completed() {
     setTimeout(() => {
-        console.assert(queue.threadController.tasks.remaining === 0, `Queue not drained, ${queue.threadController.tasks.remaining} remaining`);
+        console.assert(
+            queue.threadController.tasks.remaining === 0,
+            `Queue not drained, ${queue.threadController.tasks.remaining} remaining`);
         console.log(`Queue has been drained (${queue.threadController.tasks.remaining} remaining), all tasks completed`);
 
         const difference = sourceCompareTasks.filter(task => !finishedTasks.includes(task));
