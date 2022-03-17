@@ -39,7 +39,7 @@ dispatch
 
 ## Scaling
 ```js
-// Scales to a given amount of absolute threads.
+// Scales to a given amount of threads.
 // A total amount of execution threads is going to be 8.
 dispatch.scaleTo(8);
 
@@ -47,10 +47,10 @@ dispatch.scaleTo(8);
 // In this case, with the action above, it will be 5 total threads.
 dispatch.scale(-3);
 
-// Tip: calculate the amount of threads your application needs per
-// amount of users on a scheduler. It'll spawn one thread for each
-// 5000 users, for example.
-dispatch.scaleTo(Math.ceil(userAmount / 5e3));
+// Suggestion: calculate the amount of threads your program needs
+// per amount of users on a scheduler. DispatchQueue will spawn one
+// thread for each 5000 requests per second, for example.
+dispatch.scaleTo(Math.ceil(averageRequestAmount / 5e3));
 ```
 
 ## Group management
@@ -59,11 +59,11 @@ dispatch.scaleTo(Math.ceil(userAmount / 5e3));
 // using `.global()`.
 const services = new DispatchQueue.Group({
     "main": {
-        path: "./path/to/service_1/worker.js",
+        path: "./base/path/service_1.js",
         threadAmount: 3,
         dataContext: { ... } },
     "secondary": {
-        path: "./path/to/service_2/worker.js",
+        path: "./base/path/service_2.js",
         threadAmount: 5,
         lazyInitialisation: true }
 });
