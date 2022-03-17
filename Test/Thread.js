@@ -6,7 +6,7 @@ class Thread extends DispatchQueue.Thread {
     static automaticRejectionTime = 30;
 
     onSpawn() {
-        console.log(`Thread ${this.identifier} spawned`);
+        console.log(`[Thread ${this.identifier}] spawned`);
     }
 
     onPayload(payload) {
