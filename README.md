@@ -39,16 +39,16 @@ dispatch
 
 ## Scaling
 ```js
-// Scales to a given amount of threads.
-// A total amount of execution threads is going to be 8.
+// Scales to a given amount of threads: the total amount of
+// execution threads will be 8.
 dispatch.scaleTo(8);
 
-// Scales up or down by a given amount of threads.
-// In this case, with the action above, it will be 5 total threads.
+// Scales up or down by a given amount of threads: with the
+// action above, there will be 5 total threads (8 + (-3) = 5).
 dispatch.scale(-3);
 
 // Suggestion: calculate the amount of threads your program needs
-// per amount of users on a scheduler. DispatchQueue will spawn one
+// per amount of users on a scheduler. DispatchQueue can spawn one
 // thread for each 5000 requests per second, for example.
 dispatch.scaleTo(Math.ceil(averageRequestAmount / 5e3));
 ```
