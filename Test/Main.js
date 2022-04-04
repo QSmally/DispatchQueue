@@ -16,6 +16,7 @@ console.assert(
 // Comparable results
 const kErrorKey = 40;
 const kTimeoutKey = 41;
+const kCompleteTimeout = 300;
 
 const sourceCompareTasks = Array.from(Array(99), (_, index) => {
     const key = index + 1;
@@ -44,7 +45,7 @@ function completed() {
         const difference = sourceCompareTasks.filter(task => !finishedTasks.includes(task));
         console.assert(!difference.length, `Failed to mark tasks ${difference} as done`);
         process.exit(0);
-    }, 300);
+    }, kCompleteTimeout);
 }
 
 // Schedule a task every 1 ms
