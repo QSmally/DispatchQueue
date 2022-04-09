@@ -7,7 +7,7 @@ class DispatchThread {
 
     /**
      * A duration in milliseconds which states the maximum amount of time the
-     * execution of a task should take. By default, this property is
+     * execution of a task should take. By default, this property is set to
      * 'Infinity'.
      * @name DispatchThread#automaticRejectionTime
      * @type {Number}
