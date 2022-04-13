@@ -16,21 +16,16 @@ class DispatchQueue {
 
     /**
      * @typedef {Object} DispatchQueueInput
-     * @property {Number} threadAmount Initial amount of threads this queue
-     * should spawn. It defaults to the value returned by `os.cpus().length`.
-     * @property {Boolean} lazyInitialisation Whether or not to wait with
-     * spawning threads until the first task is created. By default, this is
-     * disabled.
+     * @property {Number} threadAmount Initial amount of threads this queue should spawn. It defaults to the value returned by `os.cpus().length`.
+     * @property {Boolean} lazyInitialisation Whether or not to wait with spawning threads until the first task is created. By default, this is disabled.
      * @property {Object} dataContext Any data to provide to the thread.
-     * @property {Boolean} logs Logs for debugging thread behaviour. By
-     * default, this is disabled.
+     * @property {Boolean} logs Logs for debugging thread behaviour. By default, this is disabled.
      */
 
     /**
      * The main interface for interacting with one DispatchQueue instance.
      * @param {Pathlike} path A path to the thread implementation.
-     * @param {DispatchQueueInput} [optionals] Additional configuration with
-     * properties like `threadAmount`, `lazyInitialisation` and `dataContext`.
+     * @param {DispatchQueueInput} [optionals] Additional configuration with properties like `threadAmount`, `lazyInitialisation` and `dataContext`.
      */
     constructor(path, {
         threadAmount = cpus().length,
@@ -115,8 +110,7 @@ class DispatchQueue {
 
     /**
      * Scales the size of this DispatchQueue.
-     * @param {Number} deltaThreadAmount Signed amount of threads to change
-     * this DispatchQueue's total thread amount with.
+     * @param {Number} deltaThreadAmount Signed amount of threads to change this DispatchQueue's total thread amount with.
      * @returns {Number}
      */
     scale(deltaThreadAmount) {
