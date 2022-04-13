@@ -10,12 +10,14 @@ const queues = new DispatchQueue.Group({
     [Services.main]: {
         path: "./Test/Thread.js",
         threadAmount: 2,
-        dataContext: { target: "main" } },
+        dataContext: { target: "main" },
+        logs: true },
     [Services.secondary]: {
         path: "./Test/Thread.js",
         threadAmount: 1,
         lazyInitialisation: true,
-        dataContext: { target: "secondary" } }
+        dataContext: { target: "secondary" },
+        logs: true }
 });
 
 const executionTasks = [

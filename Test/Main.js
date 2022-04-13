@@ -5,6 +5,7 @@ const dataContext = { hello: "from context" };
 
 const queue = new DispatchQueue("./Test/Thread.js", {
     threadAmount: 4,
+    logs: true,
     dataContext });
 console.assert(
     queue.threadAmount === 4,
