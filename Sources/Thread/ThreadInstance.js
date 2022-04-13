@@ -120,8 +120,10 @@ class ThreadInstance {
      * @async
      */
     async terminate(exitCode) {
-        const exitCodeMessage = exitCode === 0 ? "" : ` with exit code ${exitCode}`;
-        console.debug(`Thread ${this.threadId} terminated${exitCodeMessage}.`);
+        if (this.dataContext.logs) {
+            const exitCodeMessage = exitCode === 0 ? "" : ` with exit code ${exitCode}`;
+            console.debug(`Thread ${this.threadId} terminated${exitCodeMessage}.`);
+        }
 
         this.isActive = false;
         this.worker?.removeAllListeners();

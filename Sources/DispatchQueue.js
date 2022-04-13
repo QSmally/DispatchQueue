@@ -22,6 +22,8 @@ class DispatchQueue {
      * spawning threads until the first task is created. By default, this is
      * disabled.
      * @property {Object} dataContext Any data to provide to the thread.
+     * @property {Boolean} logs Logs for debugging thread behaviour. By
+     * default, this is disabled.
      */
 
     /**
@@ -33,7 +35,8 @@ class DispatchQueue {
     constructor(path, {
         threadAmount = cpus().length,
         lazyInitialisation = false,
-        dataContext = {}
+        dataContext = {},
+        logs = false
     } = {}) {
         /**
          * A path to a DispatchThread implementation.
@@ -49,7 +52,7 @@ class DispatchQueue {
          * @type {Object}
          * @readonly
          */
-        this.dataContext = dataContext;
+        this.dataContext = { ...dataContext, logs };
 
         if (isNaN(threadAmount)) {
             throw new TypeError(`Thread amount should be an unsigned integer, not "${typeof threadAmount}".`);

@@ -107,7 +107,9 @@ class DispatchThread {
      * @abstract
      */
     onSpawn() {
-        console.debug(`Thread ${this.identifier} spawned.`);
+        if (this.dataContext.logs) {
+            console.debug(`Thread ${this.identifier} spawned.`);
+        }
     }
 
     /**
