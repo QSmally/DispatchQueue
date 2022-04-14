@@ -66,7 +66,7 @@ class DispatchQueue {
         this.threadController = new ThreadController(path, {
             threadAmount,
             lazyInitialisation,
-            dataContext });
+            dataContext: this.dataContext });
     }
 
     /**
