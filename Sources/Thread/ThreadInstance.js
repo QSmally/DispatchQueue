@@ -91,7 +91,6 @@ class ThreadInstance {
      * @returns {Worker}
      */
     spawn() {
-        console.log(this.dataContext);
         this.worker = new Worker(this.path, { workerData: this.dataContext })
             .once("exit", code => this.terminate(code))
             .once("online", () => this.onSpawn())
