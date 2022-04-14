@@ -46,7 +46,7 @@ class ThreadInstance {
 
     /**
      * Indicator when this thread is scheduled to quit. The thread instance
-     * will eventually exit when the queue is drained.
+     * will eventually exit when it's done with its currently executing task.
      * @name ThreadInstance#willQuit
      * @type {Boolean}
      * @readonly
@@ -91,6 +91,7 @@ class ThreadInstance {
      * @returns {Worker}
      */
     spawn() {
+        console.log(this.dataContext);
         this.worker = new Worker(this.path, { workerData: this.dataContext })
             .once("exit", code => this.terminate(code))
             .once("online", () => this.onSpawn())
