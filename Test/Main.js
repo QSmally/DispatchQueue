@@ -1,7 +1,7 @@
 
 const DispatchQueue = require("../Sources/DispatchQueue");
 
-const dataContext = { hello: "from context" };
+const dataContext = { property: "from main thread" };
 
 const queue = new DispatchQueue("./Test/Thread.js", {
     threadAmount: 4,

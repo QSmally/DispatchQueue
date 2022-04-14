@@ -17,7 +17,7 @@ class Thread extends DispatchQueue.Thread {
 
             if (!payload.doTimeout) {
                 this.resolve({
-                    ...this.dataContext,
+                    dataContext: this.dataContext.property,
                     iteration: payload.iteration,
                     thread: this.identifier
                 });
