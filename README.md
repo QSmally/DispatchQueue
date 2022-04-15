@@ -65,7 +65,8 @@ const services = new DispatchQueue.Group({
     "secondary": {
         path: "./base/path/service_2.js",
         threadAmount: 5,
-        lazyInitialisation: true }
+        lazyInitialisation: true,
+        logs: true }
 });
 
 services
@@ -80,7 +81,8 @@ services
 // automatically ensures payload safety and other synchronisation.
 class Thread extends DispatchQueue.Thread {
 
-    static automaticRejectionTime = 30;
+    // Automatic rejection after 20 milliseconds, default 300.
+    static automaticRejectionTime = 20;
 
     onPayload(data) {
         const result = {
