@@ -60,7 +60,7 @@ class DispatchThread {
      * Internal state which manages the automatic rejection of tasks if they
      * take too long to execute.
      * @name DispatchThread#rejectionTimeout
-     * @type {Timeout}
+     * @type {Timeout?}
      * @private
      */
     rejectionTimeout = null;
