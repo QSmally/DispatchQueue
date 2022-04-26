@@ -48,9 +48,9 @@ dispatch.scaleTo(8);
 dispatch.scale(-3);
 
 // Suggestion: calculate the amount of threads your program needs
-// per amount of users on a scheduler. DispatchQueue can spawn one
-// thread for each 5000 requests per second, for example.
-dispatch.scaleTo(Math.ceil(averageRequestAmount / 5e3));
+// depending on the average load. DispatchQueue can spawn one thread
+// for each 500 requests per second, for example.
+dispatch.scaleTo(Math.ceil(requestsPerSecond / 5e2));
 ```
 
 ## Group management
