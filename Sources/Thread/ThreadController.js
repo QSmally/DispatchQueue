@@ -62,9 +62,8 @@ class ThreadController {
      * Creates a data task.
      * @param {Object} payload Anything required by the thread implementation.
      * @returns {Promise} A new task promise.
-     * @async
      */
-    async dataTask(payload) {
+    dataTask(payload) {
         if (!this.threadsSpawned) this.instantiate();
         const idlingConcurrentWorker = this.workers
             .find(thread => !thread.currentTask && thread.isActive);
