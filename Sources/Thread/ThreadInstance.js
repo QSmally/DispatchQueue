@@ -121,8 +121,10 @@ class ThreadInstance {
      */
     async terminate(exitCode) {
         if (this.dataContext.logs) {
-            const exitCodeMessage = exitCode === 0 ? "" : ` with exit code ${exitCode}`;
-            console.debug(`Thread ${this.threadId} terminated${exitCodeMessage}.`);
+            const message = `Thread ${this.threadId} terminated`;
+            console.log(exitCode === 0 ?
+                `${message} with exit code ${exitCode}` :
+                message);
         }
 
         this.isActive = false;
