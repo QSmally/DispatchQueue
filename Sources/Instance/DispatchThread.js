@@ -25,9 +25,9 @@ class DispatchThread {
             throw new Error("DispatchThread can only be instantiated in a worker thread.");
         }
 
-        this.parent.on("message", incomingPayload => {
+        this.#parent.on("message", incomingPayload => {
             if (this.constructor.automaticRejectionTime !== Infinity) {
-                this.rejectionTimeout = setTimeout(() => {
+                this.#rejectionTimeout = setTimeout(() => {
                     this.onTimeExceeded();
                 }, this.constructor.automaticRejectionTime);
             }
@@ -45,7 +45,16 @@ class DispatchThread {
      * @type {ParentPort}
      * @private
      */
-    parent = parentPort;
+    #parent = parentPort;
+
+    /**
+     * Internal state which manages the automatic rejection of tasks if they
+     * take too long to execute.
+     * @name DispatchThread#rejectionTimeout
+     * @type {Timeout?}
+     * @private
+     */
+    #rejectionTimeout = null;
 
     /**
      * Internal state which manages the amount of outgoing replies this thread
@@ -55,15 +64,6 @@ class DispatchThread {
      * @private
      */
     taskReplied = true;
-
-    /**
-     * Internal state which manages the automatic rejection of tasks if they
-     * take too long to execute.
-     * @name DispatchThread#rejectionTimeout
-     * @type {Timeout?}
-     * @private
-     */
-    rejectionTimeout = null;
 
     /**
      * Thread identifier.
@@ -95,10 +95,10 @@ class DispatchThread {
             throw new Error("Thread already marked task as done, unable to send subsequent reply.");
         }
 
-        this.parent.postMessage(payload);
+        this.#parent.postMessage(payload);
 
-        clearTimeout(this.rejectionTimeout);
-        this.rejectionTimeout = null;
+        clearTimeout(this.#rejectionTimeout);
+        this.#rejectionTimeout = null;
         this.taskReplied = true;
     }
 
