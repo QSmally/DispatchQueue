@@ -88,7 +88,7 @@ class DispatchThread {
     /**
      * Sends back an optional payload and marks this request as finished. It is
      * required to run this function once to shift the task queue.
-     * @param {Object} [payload]
+     * @param {Object} [payload] Any data to dispatch to the main thread.
      */
     resolve(payload) {
         if (this.taskReplied) {
@@ -114,7 +114,7 @@ class DispatchThread {
 
     /**
      * Payload received from the main thread.
-     * @param {Object} [payload]
+     * @param {Object} [payload] Any data dispatched to this thread.
      * @abstract
      */
     onPayload(_payload) {
