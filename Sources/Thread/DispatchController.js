@@ -1,9 +1,9 @@
 
-const Task           = require("../Thread/Task");
+const Task           = require("./Task");
 const ThreadInstance = require("./ThreadInstance");
 const TaskQueue      = require("../Queue/TaskQueue");
 
-class ThreadController {
+class DispatchController {
 
     /**
      * A class which interfaces a thread queue.
@@ -23,7 +23,7 @@ class ThreadController {
 
     /**
      * An array of usable threads.
-     * @name ThreadController#workers
+     * @name DispatchController#workers
      * @type {Array<ThreadInstance>}
      * @readonly
      */
@@ -31,16 +31,16 @@ class ThreadController {
 
     /**
      * Central queue of tasks.
-     * @name ThreadController#tasks
+     * @name DispatchController#tasks
      * @type {TaskQueue}
      * @readonly
      */
     tasks = new TaskQueue();
 
     /**
-     * Whether this ThreadController has performed its initialisation step to
+     * Whether this DispatchController has performed its initialisation step to
      * spawn all the thread instances.
-     * @name ThreadController#threadsSpawned
+     * @name DispatchController#threadsSpawned
      * @type {Boolean}
      * @readonly
      */
@@ -77,4 +77,4 @@ class ThreadController {
     }
 }
 
-module.exports = ThreadController;
+module.exports = DispatchController;

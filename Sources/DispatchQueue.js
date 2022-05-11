@@ -1,6 +1,6 @@
 
 const ThreadInstance   = require("./Thread/ThreadInstance");
-const ThreadController = require("./Thread/ThreadController");
+const DispatchController = require("./Thread/DispatchController");
 
 const { cpus } = require("os");
 
@@ -60,10 +60,10 @@ class DispatchQueue {
         /**
          * DispatchQueue's thread controller.
          * @name DispatchQueue#threadController
-         * @type {ThreadController}
+         * @type {DispatchController}
          * @private
          */
-        this.threadController = new ThreadController(path, {
+        this.threadController = new DispatchController(path, {
             threadAmount,
             lazyInitialisation,
             dataContext: this.dataContext });
