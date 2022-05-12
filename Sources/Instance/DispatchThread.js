@@ -32,7 +32,7 @@ class DispatchThread {
                 }, this.constructor.automaticRejectionTime);
             }
 
-            this.taskReplied = false;
+            this.#responseSent = false;
             setImmediate(() => this.onPayload(incomingPayload));
         });
 
@@ -59,11 +59,11 @@ class DispatchThread {
     /**
      * Internal state which manages the amount of outgoing replies this thread
      * gives, and handles them accordingly elsewhere.
-     * @name DispatchThread#taskReplied
+     * @name DispatchThread##responseSent
      * @type {Boolean}
      * @private
      */
-    taskReplied = true;
+    #responseSent = true;
 
     /**
      * Thread identifier.
@@ -91,7 +91,7 @@ class DispatchThread {
      * @param {Object} [payload] Any data to dispatch to the main thread.
      */
     resolve(payload) {
-        if (this.taskReplied) {
+        if (this.#responseSent) {
             throw new Error("Thread already marked task as done, unable to send subsequent reply.");
         }
 
@@ -99,7 +99,7 @@ class DispatchThread {
 
         clearTimeout(this.#rejectionTimeout);
         this.#rejectionTimeout = null;
-        this.taskReplied = true;
+        this.#responseSent = true;
     }
 
     /**
