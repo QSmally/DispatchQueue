@@ -59,7 +59,7 @@ class DispatchThread {
     /**
      * Internal state which manages the amount of outgoing replies this thread
      * gives, and handles them accordingly elsewhere.
-     * @name DispatchThread##responseSent
+     * @name DispatchThread#responseSent
      * @type {Boolean}
      * @private
      */
