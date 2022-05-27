@@ -1,6 +1,5 @@
 
 const { Worker } = require("worker_threads");
-const TaskQueue  = require("../Queue/TaskQueue");
 
 class ThreadInstance {
 

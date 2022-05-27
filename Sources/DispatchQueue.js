@@ -1,13 +1,13 @@
 
-const ThreadInstance   = require("./Thread/ThreadInstance");
-const DispatchController = require("./Thread/DispatchController");
+const ThreadController = require("./Controller/ThreadController");
+const DispatchDelegate = require("./Controller/DispatchDelegate");
 
 const { cpus } = require("os");
 
 class DispatchQueue {
 
     static Group = require("./Group");
-    static Thread = require("./Instance/DispatchThread");
+    static Thread = require("./Driver/DispatchThread");
 
     /**
      * Any path representable as a string.
@@ -60,10 +60,10 @@ class DispatchQueue {
         /**
          * DispatchQueue's thread controller.
          * @name DispatchQueue#threadController
-         * @type {DispatchController}
+         * @type {DispatchDelegate}
          * @private
          */
-        this.threadController = new DispatchController(path, {
+        this.delegate = new DispatchDelegate(path, {
             threadAmount,
             lazyInitialisation,
             dataContext: this.dataContext });
@@ -75,7 +75,7 @@ class DispatchQueue {
      * @type {Number}
      */
     get threadAmount() {
-        return this.threadController.workers.length;
+        return this.delegate.workers.length;
     }
 
     /**
@@ -84,7 +84,7 @@ class DispatchQueue {
      * @type {Number}
      */
     get activeThreadAmount() {
-        return this.threadController.workers
+        return this.delegate.workers
             .filter(worker => worker.isActive)
             .length;
     }
@@ -95,7 +95,7 @@ class DispatchQueue {
      * @returns {Promise} Promise controller wrapping the result of the task.
      */
     task(payload) {
-        return this.threadController.dataTask(payload);
+        return this.delegate.dataTask(payload);
     }
 
     /**
@@ -120,15 +120,15 @@ class DispatchQueue {
 
         if (deltaThreadAmount > 0) {
             for (let i = 0; i < deltaThreadAmount; i++) {
-                const newThread = new ThreadInstance(
+                const newThread = new ThreadController(
                     this.path,
-                    this.threadController.tasks,
+                    this.delegate.tasks,
                     this.dataContext);
                 newThread.spawn();
-                this.threadController.workers.push(newThread);
+                this.delegate.workers.push(newThread);
             }
         } else {
-            this.threadController.workers
+            this.delegate.workers
                 .splice(0, Math.abs(deltaThreadAmount))
                 .forEach(worker => worker.quit());
         }

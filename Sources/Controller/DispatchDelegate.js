@@ -1,9 +1,8 @@
 
-const Task           = require("./Task");
-const ThreadInstance = require("./ThreadInstance");
-const TaskQueue      = require("../Queue/TaskQueue");
+const TaskQueue      = require("./TaskQueue");
+const ThreadInstance = require("./ThreadController");
 
-class DispatchController {
+class DispatchDelegate {
 
     /**
      * A class which interfaces a thread queue.
@@ -23,7 +22,7 @@ class DispatchController {
 
     /**
      * An array of usable threads.
-     * @name DispatchController#workers
+     * @name DispatchDelegate#workers
      * @type {Array<ThreadInstance>}
      * @readonly
      */
@@ -31,16 +30,16 @@ class DispatchController {
 
     /**
      * Central queue of tasks.
-     * @name DispatchController#tasks
+     * @name DispatchDelegate#tasks
      * @type {TaskQueue}
      * @readonly
      */
     tasks = new TaskQueue();
 
     /**
-     * Whether this DispatchController has performed its initialisation step to
+     * Whether this DispatchDelegate has performed its initialisation step to
      * spawn all the thread instances.
-     * @name DispatchController#threadsSpawned
+     * @name DispatchDelegate#threadsSpawned
      * @type {Boolean}
      * @readonly
      */
@@ -68,7 +67,7 @@ class DispatchController {
         const idlingConcurrentWorker = this.workers
             .find(thread => !thread.currentTask && thread.isActive);
 
-        const task = new Task(payload);
+        const task = new TaskQueue.Task(payload);
 
         idlingConcurrentWorker ?
             idlingConcurrentWorker.dataTask(task) :
@@ -77,4 +76,4 @@ class DispatchController {
     }
 }
 
-module.exports = DispatchController;
+module.exports = DispatchDelegate;
