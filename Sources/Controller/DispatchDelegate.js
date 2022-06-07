@@ -47,7 +47,6 @@ class DispatchDelegate {
 
     /**
      * Initialises all threads in this pool.
-     * @returns {Promise}
      * @private
      */
     instantiate() {
