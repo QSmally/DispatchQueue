@@ -17,7 +17,9 @@ class DispatchThread {
 
     /**
      * A class which interfaces one individual task thread.
-     * @example class MyThread extends DispatchQueue.Thread { ... }
+     * @example
+     * class Thread extends DispatchQueue.Thread { ... }
+     * new Thread();
      * @implements {Worker}
      */
     constructor() {
@@ -25,7 +27,7 @@ class DispatchThread {
             throw new Error("DispatchThread can only be instantiated in a worker thread.");
         }
 
-        this.#parent.on("message", incomingPayload => {
+        this.#parent.on("message", payload => {
             if (this.constructor.automaticRejectionTime !== Infinity) {
                 this.#rejectionTimeout = setTimeout(() => {
                     this.onTimeExceeded();
@@ -33,7 +35,7 @@ class DispatchThread {
             }
 
             this.#responseSent = false;
-            setImmediate(() => this.onPayload(incomingPayload));
+            setImmediate(() => this.onPayload(payload));
         });
 
         this.onSpawn();
