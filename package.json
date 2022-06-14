@@ -4,7 +4,9 @@
   "description": "Swift's DispatchQueue recreated for Node.",
   "main": "Sources/DispatchQueue.js",
   "scripts": {
-    "test": "node Test/Main.js"
+    "test": "node Test/Main.js",
+    "test:group": "node Test/Group.js",
+    "test:latency": "node Test/Latency.js"
   },
   "keywords": [
     "dispatch",
