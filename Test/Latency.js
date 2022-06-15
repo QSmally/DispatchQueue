@@ -29,8 +29,8 @@ function latencyTest(threadAmount) {
 }
 
 (async () => {
-    for (let threadAmount = 1; threadAmount < threads; threadAmount++) {
-        const result = await latencyTest(threadAmount);
+    for (let threadAmount = 0; threadAmount < threads; threadAmount++) {
+        const result = await latencyTest(threadAmount + 1);
         console.log(`${threadAmount} threads, ${tasks} tasks: ${Math.round(result * 1e3) / 1e3} ms`);
     }
 
