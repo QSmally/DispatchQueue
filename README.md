@@ -3,7 +3,6 @@
 
 > Swift's [DispatchQueue](https://developer.apple.com/documentation/dispatch/dispatchqueue) recreated for Node.
 
-
 # Features
 * Central dispatch queue;
 * Configurable and hot-scaling of amount of threads;
@@ -12,13 +11,15 @@
 * A thread implementation, DispatchThread;
 * Terminate tasks which take longer than x ms.
 
+## Performance
+To see the effects of implementing Dispatch threads into your application, clone the repository and run `npm run test:latency` for a basic timing benchmark.
+
 ## Installation
 `npm install dispatchqueue`
 ```js
 const DispatchQueue = require("dispatchqueue");
 // ...
 ```
-
 
 # Usage
 ```js
@@ -96,6 +97,5 @@ class Thread extends DispatchQueue.Thread {
 
 new Thread();
 ```
-
 
 This module is licensed under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0).
