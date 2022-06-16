@@ -1,7 +1,7 @@
 
 const DispatchQueue = require("../Sources/DispatchQueue");
 
-const kThreads = 30;
+const kThreads = 24;
 const kTasks = 500;
 
 function latencyTest(threadAmount) {
@@ -29,10 +29,10 @@ function latencyTest(threadAmount) {
 }
 
 (async () => {
-    for (let threadAmount = 0; threadAmount < kThreads; threadAmount++) {
-        const threads = threadAmount + 1;
-        const result = await latencyTest(threads);
-        console.log(`${threads} threads, ${kTasks} tasks: ${Math.round(result * 1e3) / 1e3} ms`);
+    for (let iteration = 0; iteration < kThreads; iteration++) {
+        const threadAmount = iteration + 1;
+        const result = await latencyTest(threadAmount);
+        console.log(`${threadAmount} threads, ${kTasks} tasks: ${Math.round(result * 1e3) / 1e3} ms`);
     }
 
     process.exit(0);
