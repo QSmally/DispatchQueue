@@ -109,7 +109,7 @@ class DispatchQueue {
     }
 
     /**
-     * Scales the size of this DispatchQueue.
+     * Scales the amount of execution threads of this DispatchQueue.
      * @param {Number} deltaThreadAmount Signed amount of threads to change this DispatchQueue's total thread amount with.
      * @returns {Number}
      */
