@@ -124,7 +124,8 @@ class DispatchQueue {
                     this.path,
                     this.delegate.tasks,
                     this.dataContext);
-                newThread.spawn();
+
+                if (this.delegate.threadsSpawned) newThread.spawn();
                 this.delegate.workers.push(newThread);
             }
         } else {
