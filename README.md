@@ -12,7 +12,7 @@
 * Terminate tasks which take longer than x ms.
 
 ## Performance
-To see the effects of implementing Dispatch threads into your application, clone the repository and run `npm run test:latency` for a basic timing benchmark.
+To see the effects of implementing DispatchQueue, clone the repository and run `npm run test:latency` for a basic timing benchmark.
 
 ## Installation
 `npm install dispatchqueue`
