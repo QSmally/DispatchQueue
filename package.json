@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node Test/Main.js",
     "test:group": "node Test/Group.js",
-    "test:latency": "node Test/Latency.js"
+    "test:timings": "node Test/Timings.js",
+    "test:latency": "node Test/Latency/Main.js"
   },
   "keywords": [
     "dispatch",
