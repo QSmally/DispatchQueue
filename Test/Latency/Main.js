@@ -33,10 +33,10 @@ async function latencyTest(queue) {
         }
     }
 
-    console.log(`tasks     ${sendLatencyTests.length}`);
-    console.log(`send      ${formatted(sendLatencyTests)}`);
-    console.log(`receive   ${formatted(receiveLatencyTests)}`);
-    console.log(`roundtrip ${formatted(roundTripLatencyTests)}`);
+    console.log(`task amount          ${sendLatencyTests.length}`);
+    console.log(`main -> task         ${formatted(sendLatencyTests)}`);
+    console.log(`task -> main         ${formatted(receiveLatencyTests)}`);
+    console.log(`main -> task -> main ${formatted(roundTripLatencyTests)}`);
 
     process.exit(0);
 }
