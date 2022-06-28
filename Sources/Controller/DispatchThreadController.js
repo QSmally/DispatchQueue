@@ -1,7 +1,7 @@
 
 const { Worker } = require("worker_threads");
 
-class ThreadInstance {
+class DispatchThreadController {
 
     /**
      * A representative class which delegates one particular worker thread.
@@ -12,7 +12,7 @@ class ThreadInstance {
     constructor(path, taskQueue, dataContext) {
         /**
          * A path to the thread implementation.
-         * @name ThreadInstance#path
+         * @name DispatchThreadController#path
          * @type {Pathlike}
          * @readonly
          */
@@ -20,7 +20,7 @@ class ThreadInstance {
 
         /**
          * Queued data tasks.
-         * @name ThreadInstance#tasks
+         * @name DispatchThreadController#tasks
          * @type {TaskQueue}
          * @readonly
          */
@@ -28,7 +28,7 @@ class ThreadInstance {
 
         /**
          * Additional data to provide the thread.
-         * @name ThreadInstance#dataContext
+         * @name DispatchThreadController#dataContext
          * @type {Object}
          * @readonly
          */
@@ -36,8 +36,8 @@ class ThreadInstance {
     }
 
     /**
-     * Whether this ThreadInstance has a thread already active.
-     * @name ThreadInstance#isActive
+     * Whether this DispatchThreadController has a thread already active.
+     * @name DispatchThreadController#isActive
      * @type {Boolean}
      * @readonly
      */
@@ -46,7 +46,7 @@ class ThreadInstance {
     /**
      * Indicator when this thread is scheduled to quit. The thread instance
      * will eventually exit when it's done with its currently executing task.
-     * @name ThreadInstance#willQuit
+     * @name DispatchThreadController#willQuit
      * @type {Boolean}
      * @readonly
      */
@@ -54,7 +54,7 @@ class ThreadInstance {
 
     /**
      * Native thread interface by Node.
-     * @name ThreadInstance#worker
+     * @name DispatchThreadController#worker
      * @type {Worker?}
      * @readonly
      */
@@ -62,7 +62,7 @@ class ThreadInstance {
 
     /**
      * Thread identifier when spawned.
-     * @name ThreadInstance#threadId
+     * @name DispatchThreadController#threadId
      * @type {Number?}
      * @readonly
      */
@@ -70,7 +70,7 @@ class ThreadInstance {
 
     /**
      * Timestamp when this thread was last (re)spawned.
-     * @name ThreadInstance#lastSpawnedAt
+     * @name DispatchThreadController#lastSpawnedAt
      * @type {Number?}
      * @readonly
      */
@@ -78,7 +78,7 @@ class ThreadInstance {
 
     /**
      * The currently executing data task.
-     * @name ThreadInstance#currentTask
+     * @name DispatchThreadController#currentTask
      * @type {Task?}
      * @readonly
      */
@@ -189,4 +189,4 @@ class ThreadInstance {
     }
 }
 
-module.exports = ThreadInstance;
+module.exports = DispatchThreadController;

@@ -1,12 +1,12 @@
 
-const ThreadController = require("./Controller/ThreadController");
-const DispatchDelegate = require("./Controller/DispatchDelegate");
+const DispatchController       = require("./Controller/DispatchController");
+const DispatchThreadController = require("./Controller/DispatchThreadController");
 
 const { cpus } = require("os");
 
 class DispatchQueue {
 
-    static Group = require("./Group");
+    static Group = require("./DispatchGroup");
     static Thread = require("./Driver/DispatchThread");
 
     /**
@@ -60,10 +60,10 @@ class DispatchQueue {
         /**
          * DispatchQueue's thread controller.
          * @name DispatchQueue#threadController
-         * @type {DispatchDelegate}
+         * @type {DispatchController}
          * @private
          */
-        this.delegate = new DispatchDelegate(path, {
+        this.delegate = new DispatchController(path, {
             threadAmount,
             lazyInitialisation,
             dataContext: this.dataContext });
@@ -120,7 +120,7 @@ class DispatchQueue {
 
         if (deltaThreadAmount > 0) {
             for (let i = 0; i < deltaThreadAmount; i++) {
-                const newThread = new ThreadController(
+                const newThread = new DispatchThreadController(
                     this.path,
                     this.delegate.tasks,
                     this.dataContext);
