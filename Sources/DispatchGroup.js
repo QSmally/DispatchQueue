@@ -12,19 +12,19 @@ class DispatchGroup {
 
     /**
      * Initialises a group of DispatchQueue configurations.
-     * @param {Object<String, DispatchQueueConfiguration>} dispatchQueues An object with a name/properties scheme.
+     * @param {Object<String, DispatchQueueConfiguration>} dispatchQueues An object with an id/properties scheme.
      */
     constructor(dispatchQueues = {}) {
         const DispatchQueue = require("./DispatchQueue");
 
-        for (const [name, properties] of Object.entries(dispatchQueues)) {
+        for (const [id, properties] of Object.entries(dispatchQueues)) {
             const { path, threadAmount, lazyInitialisation, dataContext, logs } = properties;
             const dispatchQueue = new DispatchQueue(path, {
                 threadAmount,
                 lazyInitialisation,
                 dataContext,
                 logs });
-            this.threadGroups.set(name, dispatchQueue);
+            this.threadGroups.set(id, dispatchQueue);
         }
     }
 
@@ -38,11 +38,11 @@ class DispatchGroup {
 
     /**
      * Returns a configured DispatchQueue.
-     * @param {String} dispatchQueueName The representative queue name.
+     * @param {String} dispatchQueueId The representative queue id.
      * @returns {DispatchQueue?}
      */
-    global(dispatchQueueName) {
-        return this.threadGroups.get(dispatchQueueName);
+    global(dispatchQueueId) {
+        return this.threadGroups.get(dispatchQueueId);
     }
 }
 
