@@ -1,6 +1,6 @@
 
-const DispatchController       = require("./Controller/DispatchController");
-const DispatchThreadController = require("./Controller/DispatchThreadController");
+const DispatchManager  = require("./Controller/DispatchManager");
+const ThreadController = require("./Controller/ThreadController");
 
 const { cpus } = require("os");
 
@@ -14,6 +14,7 @@ class DispatchQueue {
      * @typedef {String} Pathlike
      */
 
+    // TODO: 'DispatchQueueConfiguration' and 'DispatchQueueGroupConfiguration'
     /**
      * @typedef {Object} DispatchQueueInput
      * @property {Number} threadAmount Initial amount of threads this queue should spawn. It defaults to the value returned by `os.cpus().length`.
@@ -58,12 +59,13 @@ class DispatchQueue {
         }
 
         /**
-         * DispatchQueue's thread controller.
-         * @name DispatchQueue#threadController
-         * @type {DispatchController}
+         * An object which manages the lifetime of all the threads of this
+         * DispatchQueue.
+         * @name DispatchQueue#manager
+         * @type {DispatchManager}
          * @private
          */
-        this.delegate = new DispatchController(path, {
+        this.manager = new DispatchManager(path, {
             threadAmount,
             lazyInitialisation,
             dataContext: this.dataContext });
@@ -75,7 +77,7 @@ class DispatchQueue {
      * @type {Number}
      */
     get threadAmount() {
-        return this.delegate.workers.length;
+        return this.manager.workers.length;
     }
 
     /**
@@ -84,7 +86,7 @@ class DispatchQueue {
      * @type {Number}
      */
     get activeThreadAmount() {
-        return this.delegate.workers
+        return this.manager.workers
             .filter(worker => worker.isActive)
             .length;
     }
@@ -95,7 +97,7 @@ class DispatchQueue {
      * @returns {Promise} Promise controller wrapping the result of the task.
      */
     task(payload) {
-        return this.delegate.dataTask(payload);
+        return this.manager.dataTask(payload);
     }
 
     /**
@@ -120,16 +122,16 @@ class DispatchQueue {
 
         if (deltaThreadAmount > 0) {
             for (let i = 0; i < deltaThreadAmount; i++) {
-                const newThread = new DispatchThreadController(
+                const newThread = new ThreadController(
                     this.path,
-                    this.delegate.tasks,
+                    this.manager.tasks,
                     this.dataContext);
 
-                if (this.delegate.threadsSpawned) newThread.spawn();
-                this.delegate.workers.push(newThread);
+                if (this.manager.threadsSpawned) newThread.spawn();
+                this.manager.workers.push(newThread);
             }
         } else {
-            this.delegate.workers
+            this.manager.workers
                 .splice(0, Math.abs(deltaThreadAmount))
                 .forEach(worker => worker.quit());
         }

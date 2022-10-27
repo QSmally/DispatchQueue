@@ -1,7 +1,7 @@
 
 const { Worker } = require("worker_threads");
 
-class DispatchThreadController {
+class ThreadController {
 
     /**
      * A representative class which delegates one particular worker thread.
@@ -12,7 +12,7 @@ class DispatchThreadController {
     constructor(path, taskQueue, dataContext) {
         /**
          * A path to the thread implementation.
-         * @name DispatchThreadController#path
+         * @name ThreadController#path
          * @type {Pathlike}
          * @readonly
          */
@@ -20,7 +20,7 @@ class DispatchThreadController {
 
         /**
          * Queued data tasks.
-         * @name DispatchThreadController#tasks
+         * @name ThreadController#tasks
          * @type {TaskQueue}
          * @readonly
          */
@@ -28,7 +28,7 @@ class DispatchThreadController {
 
         /**
          * Additional data to provide the thread.
-         * @name DispatchThreadController#dataContext
+         * @name ThreadController#dataContext
          * @type {Object}
          * @readonly
          */
@@ -36,8 +36,8 @@ class DispatchThreadController {
     }
 
     /**
-     * Whether this DispatchThreadController has a thread already active.
-     * @name DispatchThreadController#isActive
+     * Whether this ThreadController has a thread already active.
+     * @name ThreadController#isActive
      * @type {Boolean}
      * @readonly
      */
@@ -46,7 +46,7 @@ class DispatchThreadController {
     /**
      * Indicator when this thread is scheduled to quit. The thread instance
      * will eventually exit when it's done with its currently executing task.
-     * @name DispatchThreadController#willQuit
+     * @name ThreadController#willQuit
      * @type {Boolean}
      * @readonly
      */
@@ -54,7 +54,7 @@ class DispatchThreadController {
 
     /**
      * Native thread interface by Node.
-     * @name DispatchThreadController#worker
+     * @name ThreadController#worker
      * @type {Worker?}
      * @readonly
      */
@@ -62,7 +62,7 @@ class DispatchThreadController {
 
     /**
      * Thread identifier when spawned.
-     * @name DispatchThreadController#threadId
+     * @name ThreadController#threadId
      * @type {Number?}
      * @readonly
      */
@@ -70,7 +70,7 @@ class DispatchThreadController {
 
     /**
      * Timestamp when this thread was last (re)spawned.
-     * @name DispatchThreadController#lastSpawnedAt
+     * @name ThreadController#lastSpawnedAt
      * @type {Number?}
      * @readonly
      */
@@ -78,7 +78,7 @@ class DispatchThreadController {
 
     /**
      * The currently executing data task.
-     * @name DispatchThreadController#currentTask
+     * @name ThreadController#currentTask
      * @type {Task?}
      * @readonly
      */
@@ -189,4 +189,4 @@ class DispatchThreadController {
     }
 }
 
-module.exports = DispatchThreadController;
+module.exports = ThreadController;

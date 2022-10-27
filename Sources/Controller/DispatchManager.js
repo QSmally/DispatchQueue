@@ -1,8 +1,8 @@
 
-const TaskQueue                = require("./TaskQueue");
-const DispatchThreadController = require("./DispatchThreadController");
+const TaskQueue        = require("./TaskQueue");
+const ThreadController = require("./ThreadController");
 
-class DispatchController {
+class DispatchManager {
 
     /**
      * A class which interfaces a thread queue.
@@ -11,7 +11,7 @@ class DispatchController {
      */
     constructor(path, { threadAmount, lazyInitialisation, dataContext }) {
         for (let i = 0; i < threadAmount; i++) {
-            const thread = new DispatchThreadController(path, this.tasks, dataContext);
+            const thread = new ThreadController(path, this.tasks, dataContext);
             this.workers.push(thread);
         }
 
@@ -22,24 +22,24 @@ class DispatchController {
 
     /**
      * An array of usable threads.
-     * @name DispatchController#workers
-     * @type {Array<DispatchThreadController>}
+     * @name DispatchManager#workers
+     * @type {Array<ThreadController>}
      * @readonly
      */
     workers = [];
 
     /**
      * Central queue of tasks.
-     * @name DispatchController#tasks
+     * @name DispatchManager#tasks
      * @type {TaskQueue}
      * @readonly
      */
     tasks = new TaskQueue();
 
     /**
-     * Whether this DispatchController has performed its initialisation step to
+     * Whether this DispatchManager has performed its initialisation step to
      * spawn all the thread instances.
-     * @name DispatchController#threadsSpawned
+     * @name DispatchManager#threadsSpawned
      * @type {Boolean}
      * @readonly
      */
@@ -75,4 +75,4 @@ class DispatchController {
     }
 }
 
-module.exports = DispatchController;
+module.exports = DispatchManager;
