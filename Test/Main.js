@@ -31,7 +31,7 @@ const finishedTasks = [];
 
 // Generic methods
 function logThreads() {
-    const workerStates = queue.delegate.workers
+    const workerStates = queue.manager.workers
         .map(thread => `Thread ${thread.threadId}, is active: ${thread.isActive}`);
     console.log(workerStates);
 }
@@ -39,9 +39,9 @@ function logThreads() {
 function completed() {
     setTimeout(() => {
         console.assert(
-            queue.delegate.tasks.remaining === 0,
-            `Queue not drained, ${queue.delegate.tasks.remaining} remaining`);
-        console.log(`Queue has been drained (${queue.delegate.tasks.remaining} remaining), all tasks completed`);
+            queue.manager.tasks.remaining === 0,
+            `Queue not drained, ${queue.manager.tasks.remaining} remaining`);
+        console.log(`Queue has been drained (${queue.manager.tasks.remaining} remaining), all tasks completed`);
 
         const difference = sourceCompareTasks.filter(task => !finishedTasks.includes(task));
         console.assert(!difference.length, `Failed to mark tasks ${difference} as done`);
@@ -54,7 +54,7 @@ const interval = setInterval(() => {
     iteration++;
 
     if (iteration === 100) {
-        console.log(`Synchronous tasks are inserted into queue (${queue.delegate.tasks.remaining} remaining)`);
+        console.log(`Synchronous tasks are inserted into queue (${queue.manager.tasks.remaining} remaining)`);
         return clearInterval(interval);
     }
 
