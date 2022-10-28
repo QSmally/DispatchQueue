@@ -2,7 +2,7 @@
 class DispatchGroup {
 
     /**
-     * @typedef {Object} DispatchQueueConfiguration
+     * @typedef {Object} DispatchQueueGroupConfiguration
      * @property {Pathlike} path A path to the thread implementation.
      * @property {Number} threadAmount Initial amount of threads this queue should spawn. It defaults to the value returned by `os.cpus().length`.
      * @property {Boolean} lazyInitialisation Whether or not to wait with spawning threads until the first task is created. By default, this is disabled.
@@ -12,7 +12,7 @@ class DispatchGroup {
 
     /**
      * Initialises a group of DispatchQueue configurations.
-     * @param {Object<String, DispatchQueueConfiguration>} dispatchQueues An object with an id/properties scheme.
+     * @param {Object<String, DispatchQueueGroupConfiguration>} dispatchQueues An object with an id/properties scheme.
      */
     constructor(dispatchQueues = {}) {
         const DispatchQueue = require("./DispatchQueue");
