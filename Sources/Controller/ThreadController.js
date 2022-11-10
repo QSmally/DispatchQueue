@@ -108,7 +108,7 @@ class ThreadController {
      */
     quit() {
         this.willQuit = true;
-        if (!this.currentTask) this.terminate(0);
+        if (!this.currentTask) this.terminate();
     }
 
     /**
@@ -118,7 +118,7 @@ class ThreadController {
      * @returns {Promise}
      * @async
      */
-    async terminate(exitCode) {
+    async terminate(exitCode = 0) {
         if (this.dataContext.logs) {
             const message = `Thread ${this.threadId} terminated`;
             console.debug(exitCode !== 0 ?
@@ -168,7 +168,7 @@ class ThreadController {
         this.currentTask = null;
 
         if (this.willQuit) {
-            return this.terminate(0);
+            return this.terminate();
         }
 
         const nextTask = this.tasks.pick();
